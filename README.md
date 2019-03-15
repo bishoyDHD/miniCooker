@@ -8,7 +8,7 @@ Installing mini-Cooker is a lot like hanging out with a pubescent child, ANNOYIN
 HOW TO INSTALL:
 ---------------
 Prerequisites:
-* Need [GenFit](https://github.com/GenFit/GenFit) and [eigen3](https://github.com/eigenteam/eigen-git-mirror)
+* Need ~~[GenFit](https://github.com/GenFit/GenFit) and [eigen3](https://github.com/eigenteam/eigen-git-mirror)~~
 * Usual: GSL, xqilla, lapack, expat
 * Boost between 1.47-1.62 (will conflict with std::cpp if higher)
 * CLHEP (might be system dependent feature, see CLHEP section below)
