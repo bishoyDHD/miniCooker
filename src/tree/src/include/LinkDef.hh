@@ -6,7 +6,6 @@
 #pragma link C++ class std::vector<unsigned short>+;
 #pragma link C++ class std::pair<unsigned short, std::string>+;
 #pragma link C++ class std::map<unsigned short, std::string>+;
-#pragma link C++ class std::vector<MRTSlowData::slowStruct>+;
 
 #pragma link C++ class CRTBase+;
 #pragma link C++ class CRTConfigFile+;
@@ -21,11 +20,6 @@
 
 #pragma link C++ class std::map<std::string, double>+;
 
-#pragma link C++ class GeneratorEvent+;
-#pragma link C++ class GeneratorParticle+;
-#pragma link C++ class GeneratorWeights+;
-#pragma link C++ class std::vector<GeneratorParticle>+;
-
 #pragma link C++ class EventInfo+;
 #pragma link C++ class BeamInfo+;
 #pragma link C++ class SftInfo+;
@@ -37,10 +31,5 @@
 #pragma link C++ class GvInfo+;
 #pragma link C++ class TtcInfo+;
 #pragma link C++ class PgcInfo+;
-
-#pragma link C++ class CRTCaliTof1+;
-#pragma link C++ class CRTCaliAc+;
-#pragma link C++ class CRTCaliPgC+;
-
 
 #endif
