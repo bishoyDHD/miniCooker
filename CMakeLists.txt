@@ -25,9 +25,9 @@ set (BUILD_WITHMPI off CACHE bool "Enable MPI for parallel processing (normally 
 
 if (BUILD_WITHMPI)
  find_package(MPI REQUIRED)
- FIND_PACKAGE(Boost 1.62 COMPONENTS system program_options program_options mpi serialization REQUIRED) 
+ FIND_PACKAGE(Boost 1.47 COMPONENTS system program_options program_options mpi serialization REQUIRED) 
 ELSE()
- FIND_PACKAGE(Boost 1.62 COMPONENTS system program_options program_options REQUIRED) 
+ FIND_PACKAGE(Boost 1.47 COMPONENTS system program_options program_options REQUIRED) 
 ENDIF()
 
 INCLUDE_DIRECTORIES(${Boost_INCLUDE_DIR})
