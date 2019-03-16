@@ -26,8 +26,8 @@ FILE(GLOB SRCS src/*.cpp)
 ###################################################
 # POI:
 FILE(GLOB HEADERS src/include/*.h
-${CMAKE_SOURCE_DIR}/include/csitree.h
 ${CMAKE_SOURCE_DIR}/include/cookerrawtree.h
+${CMAKE_SOURCE_DIR}/include/csitree.h
 )
 
 SET(INCLUDES ${ROOT_INCLUDE_DIR} "${CMAKE_CURRENT_SOURCE_DIR}/src/include" "${CMAKE_CURRENT_SOURCE_DIR}/../../include")

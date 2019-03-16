@@ -35,11 +35,11 @@ public:
   CH1D(const char *a,const char* b, int c, double d, double e,double *w):TH1D(a,b,c,d,e),weight(w){Sumw2();};
  Int_t	Fill(Double_t x)
   {
-    return TH1D::Fill(x);//,*weight); // commented out weight as we don't have it yet for MUSE
+    return TH1D::Fill(x);//,*weight); // commented out weight as we don't have it yet for.cooker
   }
   Int_t	Fill(Double_t x,Double_t w)
   {
-    return TH1D::Fill(x,w);//*(*weight)); // commented out weight as we don't have it yet for MUSE
+    return TH1D::Fill(x,w);//*(*weight)); // commented out weight as we don't have it yet for.cooker
   }
 
 };
@@ -54,11 +54,11 @@ public:
 
   Int_t	Fill(Double_t x,Double_t y)
   {
-    return TH2D::Fill(x,y);//,*weight); // commented out weight as we don't have it yet for MUSE
+    return TH2D::Fill(x,y);//,*weight); // commented out weight as we don't have it yet for.cooker
   }
   Int_t	Fill(Double_t x,Double_t y,Double_t w)
   {
-    return TH2D::Fill(x,y,w);//*(*weight)); // commented out weight as we don't have it yet for MUSE
+    return TH2D::Fill(x,y,w);//*(*weight)); // commented out weight as we don't have it yet for.cooker
   }
 
 };
@@ -72,11 +72,11 @@ public:
   CH3D(const char *a,const char* b, int c, double d, double e, int f, double g, double h,int i, double j, double k,double *w):TH3D(a,b,c,d,e,f,g,h,i,j,k),weight(w){Sumw2();};
   Int_t	Fill(Double_t x,Double_t y,Double_t z)
   {
-    return TH3D::Fill(x,y,z);//,*weight); // commented out weight as we don't have it yet for MUSE
+    return TH3D::Fill(x,y,z);//,*weight); // commented out weight as we don't have it yet for.cooker
   }
   Int_t	Fill(Double_t x,Double_t y,Double_t z,Double_t w)
   {
-    return TH3D::Fill(x,y,z,w);//*(*weight)); // commented out weight as we don't have it yet for MUSE
+    return TH3D::Fill(x,y,z,w);//*(*weight)); // commented out weight as we don't have it yet for.cooker
   }
 
 };
@@ -307,7 +307,7 @@ void Plugin::saveValue(const char *tagname, const char *tablename, const char *v
   TObject *dummy=getMemoryObject("Runnumber");
   int runnumber=htonl(*(int*) &dummy); //ugly but works 
   // Make a connection to the database
-  conn = PQconnectdb("user=runinfo password=runinfo dbname=runinfo host=OlympusWorkerNodeLNS00");
+  conn = PQconnectdb("user=runinfo password=runinfo dbname=runinfo host.cookerWorkerNodeLNS00");
   
   // Check to see that the backend connection was successfully made
   if (PQstatus(conn) != CONNECTION_OK)

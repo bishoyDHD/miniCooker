@@ -20,7 +20,7 @@ LIST(APPEND stt_analysis_LIBRARY_PROPERTIES VERSION "${stt_analysis_VERSION}" SO
 SET(LIBNAME "stt_analysis")
 
 FILE(GLOB SRCS src/*.cpp)
-FILE(GLOB HEADERS src/include/*.h ${CMAKE_SOURCE_DIR}/include/muserawtree.h)
+FILE(GLOB HEADERS src/include/*.h ${CMAKE_SOURCE_DIR}/include.cookerrawtree.h)
 
 SET(INCLUDES ${ROOT_INCLUDE_DIR} "${CMAKE_CURRENT_SOURCE_DIR}/src/include" "${CMAKE_SOURCE_DIR}/include")
 INCLUDE_DIRECTORIES(${INCLUDES})

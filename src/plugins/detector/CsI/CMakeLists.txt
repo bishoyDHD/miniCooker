@@ -41,7 +41,7 @@ LIST(APPEND SRCS ${DICTIONARY})
 # build the library
 ADD_LIBRARY(${LIBNAME} SHARED ${SRCS})
 #TARGET_LINK_LIBRARIES(${LIBNAME}  cookerrawtree Plugin "-L${ROOT_LIBRARY_DIR}" Spectrum Eve EG TreePlayer Geom Ged RGL Gui Gpad Hist Graf Graf3d Tree Rint Postscript Matrix Physics MathCore RIO Net Thread Core Cint)
-TARGET_LINK_LIBRARIES(${LIBNAME}  cookerrawtree Plugin "-L${ROOT_LIBRARY_DIR}" Core)# Cint)
+TARGET_LINK_LIBRARIES(${LIBNAME}  cookerrawtree Plugin "-L${ROOT_LIBRARY_DIR}" Core)
 #TARGET_LINK_LIBRARIES(${LIBNAME}  cookerrawtree Plugin "-L${ROOT_LIBRARY_DIR}" Core Cint)
 TARGET_COMPILE_FEATURES(${LIBNAME} PRIVATE cxx_auto_type cxx_range_for)
 SET_TARGET_PROPERTIES(${LIBNAME} PROPERTIES ${CSI_LIBRARY_PROPERTIES})
@@ -51,5 +51,5 @@ SET_TARGET_PROPERTIES(${LIBNAME} PROPERTIES ${CSI_LIBRARY_PROPERTIES})
 # install the library
 INSTALL(TARGETS ${LIBNAME} RUNTIME DESTINATION ${BINDIR} LIBRARY DESTINATION ${LIBDIR} ARCHIVE DESTINATION ${LIBDIR})
 
-INSTALL (FILES init/fitWave.xml DESTINATION "../shared/init")
-INSTALL (FILES init/fitWave.xsd DESTINATION "../shared/init")
+INSTALL (FILES init/demo.xml DESTINATION "../shared/init")
+INSTALL (FILES init/demo.xsd DESTINATION "../shared/init")

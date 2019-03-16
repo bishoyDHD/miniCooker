@@ -1,11 +1,11 @@
 # Function library for writing multiple GDML files:
-#     1. OLYMPUS_RootNoTor.gdml  --- for the EventDisplay with the toroid removed
-#     2. OLYMPUS_Fitting.gdml    --- for use with the track fitting plugins
-#     2. OLYMPUS_Root.gdml       --- for the EventDisplay
-#     3. OLYMPUS_Geant4.gdml     --- for the Monte Carlo
+#     1..cooker_RootNoTor.gdml  --- for the EventDisplay with the toroid removed
+#     2..cooker_Fitting.gdml    --- for use with the track fitting plugins
+#     2..cooker_Root.gdml       --- for the EventDisplay
+#     3..cooker_Geant4.gdml     --- for the Monte Carlo
 #
-# The file olympusWriter.py should be stored in the same folder as this script.
-# To import the module olympusWriter, you must add $ROOTSYS/geom/gdml to your PYTHONPATH environment variable.  Verify that the file writer.py is in that folder.
+# The file.cookerWriter.py should be stored in the same folder as this script.
+# To import the module.cookerWriter, you must add $ROOTSYS/geom/gdml to your PYTHONPATH environment variable.  Verify that the file writer.py is in that folder.
 # This expects a set of text files describing component geometries to be stored in the same directory.
 #
 #
@@ -17,7 +17,7 @@
 # Written on a Mac running Python 2.6.1 and GCC 4.2.1 on Darwin
 ###########################################################################################################################################################
 
-import olympusWriter
+import.cookerWriter
 
 ###########################################################################################################################################################
 # set up "define" using:
@@ -105,12 +105,12 @@ def buildPositionsRotations(owriter, posfile, rotfile):
 #
 #
 #
-#     Additional methods defined for olympusWriter:
+#     Additional methods defined for.cookerWriter:
 #
 #     addIsotope(name, n, z, a)
 #     addElementFromIsotopes(name, isotopes) where isotopes is a Dictionary of the same format as elems in addMixture
 #     addMaterialWithAttributes(name, state, attribs, elems) where attribs is a Dictionary; e.g., attribs = {attrib1:[unit1, value1], attrib2:[unit2, value2], ...} and elems is a Dictionary as in addMixture
-#         Note: attributes should be chosen from the list 'MEE', 'D', 'P', 'T', 'atom' with corresponding units (in OLYMPUS) of 'eV', 'g/cm3', 'pascal', 'K', 'g/mol' respectively
+#         Note: attributes should be chosen from the list 'MEE', 'D', 'P', 'T', 'atom' with corresponding units (in.cooker) of 'eV', 'g/cm3', 'pascal', 'K', 'g/mol' respectively
 #     addMaterialG4Al(name='G4_Al', state='solid', a=26.9815, z=13, rho=2.699, mee=166)
 #         Note: this material was formatted differently from any other, so I've made a tailored constructor just for it
 ###########################################################################################################################################################
@@ -233,7 +233,7 @@ def buildMaterials(owriter, matfile, nongaseous):
 ###########################################################################################################################################################
 # set up "solids" using: EVERYTHING IS IN CENTIMETERS AND DEGREES as fixed by writer.py
 #
-#     Methods defined in writer that aren't needed for OLYMPUS:
+#     Methods defined in writer that aren't needed for.cooker:
 #
 #     addReflSolid(name, solid, dx, dy, dz, sx, sy, sz, rx, ry, rz)
 #     addParaboloid(name, rlo, rhi, dz)
@@ -269,7 +269,7 @@ def buildMaterials(owriter, matfile, nongaseous):
 #
 #
 #
-#     Additional methods defined for olympusWriter:
+#     Additional methods defined for.cookerWriter:
 #
 #     addElcone(name, dx, dy, zcut, zmax)
 #     hasSolid(name)

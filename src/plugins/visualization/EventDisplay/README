@@ -1,9 +1,9 @@
-This is based on the OLYMPUS 3D Event viewer by Brian Henderson. 
+This is based on the.cooker 3D Event viewer by Brian Henderson. 
 Modifications by JCB
 
 The original README follows.
 
-The OLYMPUS 3D Event Display
+The.cooker 3D Event Display
 
 Brian S. Henderson (bhender1@mit.edu)
 Massachusetts Institute of Technology
@@ -22,7 +22,7 @@ functions below in the code.
 This documentation is also available in a perhaps easier to read format on
 OLYMPUS Wookieepedia:
 
-https:olympus-docu.hiskp.uni-bonn.de/dokuwiki/doku.php?id=plugins:eventdisplay
+https.cooker-docu.hiskp.uni-bonn.de/dokuwiki/doku.php?id=plugins:eventdisplay
 
 If you would like anything added for your subsystem, something made more user
 friendly, etc, please send me an e-mail.
@@ -79,9 +79,9 @@ Display into a separate window in order to simultaneously use another tab or
 to make the display truly full screen without the visco control window.
 
 A guide to the various controls implemented for the Event Display can be
-found on the OLYMPUS Wookieepedia version of this documentation:
+found on the.cooker Wookieepedia version of this documentation:
 
-https:olympus-docu.hiskp.uni-bonn.de/dokuwiki/doku.php?id=plugins:eventdisplay
+https.cooker-docu.hiskp.uni-bonn.de/dokuwiki/doku.php?id=plugins:eventdisplay
 
 Hits in the various detectors are visualized in the following ways:
 
@@ -116,7 +116,7 @@ Hits in the various detectors are visualized in the following ways:
       NO CURRENT IMPLEMENTATION.  INPUT FROM THE SYMB GROUP AS TO WHAT THEY
       WOULD LIKE WOULD BE MUCH APPRECIATED.
 
-Down the left-hand column, below the OLYMPUS logo (unless it is turned off,
+Down the left-hand column, below the.cooker logo (unless it is turned off,
 see the option below) various parameters of the run are listed, including the
 run number, beam species, beam energy, beam current, target flow, and toroid
 current.  These values are updated every event.  In the very near future, I
@@ -179,7 +179,7 @@ CHANGE THE GEOMETRY FILE:
 
 The Event Display by default uses the most recent survey geometry, which are
 the "survey2" family of GDML files (as of December 2012).  A variety of GDML
-files are available in src/gdml of your OLYMPUS repository, including the
+files are available in src/gdml of your.cooker repository, including the
 defaults.  Note that due to the different ways ROOT and Geant4 read GDML
 files, slightly different GDML files are produced (from the same source data)
 for each program.  The Event Display with work with any of the files named
@@ -195,7 +195,7 @@ To specify a non-default geometry file, use the command line option:
 -c EventDisplay:useGeo:\"filename\"
 
 where filename is the filename WITHOUT the .gdml extension.  By default, the
-program looks in your .olympus/shared/gdml directory, so either put any file
+program looks in your .cooker/shared/gdml directory, so either put any file
 you are using there or specify a relative path to that in the file name. For
 example, if you wanted the nominal position geometry, you would call:
 
@@ -203,7 +203,7 @@ example, if you wanted the nominal position geometry, you would call:
 
 SAVE SPACE BY DISABLING LOGO:
 
-By default, the might OLYMPUS logo is displayed in the top-left hand corner
+By default, the might.cooker logo is displayed in the top-left hand corner
 of the Event Display window to make things look super-awesome when showing
 off our data to your friends, family, and colleagues.  If you have a small
 screen, however, this logo may push some of the option buttons off your

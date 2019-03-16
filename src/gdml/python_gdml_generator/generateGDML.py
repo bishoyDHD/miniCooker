@@ -1,11 +1,11 @@
 # Driver script to write multiple GDML files:
-#     1. OLYMPUS_RootNoTor.gdml  --- for the EventDisplay with the toroid removed
-#     2. OLYMPUS_Fitting.gdml    --- for use with the track fitting plugins
-#     2. OLYMPUS_Root.gdml       --- for the EventDisplay
-#     3. OLYMPUS_Geant4.gdml     --- for the Monte Carlo
+#     1..cooker_RootNoTor.gdml  --- for the EventDisplay with the toroid removed
+#     2..cooker_Fitting.gdml    --- for use with the track fitting plugins
+#     2..cooker_Root.gdml       --- for the EventDisplay
+#     3..cooker_Geant4.gdml     --- for the Monte Carlo
 #
-# The files generateGDML.py and olympusWriter.py should be stored in the same folder as this script.
-# To import the module olympusWriter, you must add $ROOTSYS/geom/gdml to your PYTHONPATH environment variable.  Verify that the file writer.py is in that folder.
+# The files generateGDML.py and.cookerWriter.py should be stored in the same folder as this script.
+# To import the module.cookerWriter, you must add $ROOTSYS/geom/gdml to your PYTHONPATH environment variable.  Verify that the file writer.py is in that folder.
 # This expects a set of text files describing component geometries to be stored in the same directory.
 #
 #
@@ -34,7 +34,7 @@ from gdmlModule import *
 #        Remove the listed logical volumes from the geometry and write GDML files that omit them.  Any number of logical volumes may be listed.
 #
 #        -world worldname
-#        Use the volume worldname as your geometry's world volume.  This shouldn't be used for OLYMPUS as the default is correct.
+#        Use the volume worldname as your geometry's world volume.  This shouldn't be used for.cooker as the default is correct.
 #
 #        -posfile posfile
 #        Use positions as defined in the file posfile (include path).
@@ -49,13 +49,13 @@ from gdmlModule import *
 #        Use volumes as defined in the file volfile (include path).  This applies to the Root and Geant4 GDML files but does not override the volfile used for the FittingGeant4 file.
 #
 #        -nominal
-#        Use the posfile and rotfile that describe the nominal OLYMPUS geometry.
+#        Use the posfile and rotfile that describe the nominal.cooker geometry.
 #
 #        -survey1
-#        Use the posfile and rotfile that describe the OLYMPUS geometry based on the first round of surveys.
+#        Use the posfile and rotfile that describe the.cooker geometry based on the first round of surveys.
 #
 #        -survey2
-#        Use the solfile, volfile, posfile and rotfile that describe the OLYMPUS geometry after the second SYMB survey.  This is the default.
+#        Use the solfile, volfile, posfile and rotfile that describe the.cooker geometry after the second SYMB survey.  This is the default.
 ###########################################################################################################################################################
 
 print "\n\nWelcome!  Let's generate some beautiful GDML files together.\n\n"
@@ -131,7 +131,7 @@ if  '-volfile' in sys.argv:
 #
 #
 
-# gdml files to be built are represented by these olympusWriter objects:
+# gdml files to be built are represented by these.cookerWriter objects:
 #
 #    gdmlRoot
 #    gdmlGeant4
@@ -147,10 +147,10 @@ if  '-volfile' in sys.argv:
 #    survey1_WC_cells
 #    survey2_WC_cells
 
-# build the gdmlRoot olympusWriter
+# build the gdmlRoot.cookerWriter
 
 gdmlfileRoot = '../gdml_files/Root' + tag + '.gdml'
-gdmlRoot = olympusWriter.olympusWriter(gdmlfileRoot)
+gdmlRoot =.cookerWriter.cookerWriter(gdmlfileRoot)
 gdmlRoot.worldname = worldname
 
 print '\nGenerating ' + gdmlRoot.gdmlfile
@@ -179,7 +179,7 @@ for i in range(0,16):
     gdmlRoot.ignoreSolids(['WS_innersection' + str(i) + '_solid0','WS_outersection' + str(i) + '_solid0'])
 buildSolids(gdmlRoot, solfile)
 
-# copy the gdmlRoot olympusWriter and build the gdmlFittingGeant4 olympusWriter
+# copy the gdmlRoot.cookerWriter and build the gdmlFittingGeant4.cookerWriter
 
 gdmlfileFittingGeant4 = '../gdml_files/FittingGeant4' + tag + '.gdml'
 print '\nCopying ' + gdmlRoot.gdmlfile + ' content to ' + gdmlfileFittingGeant4
@@ -187,7 +187,7 @@ gdmlFittingGeant4 = gdmlRoot.copy()
 gdmlFittingGeant4.worldname = worldname
 gdmlFittingGeant4.setFile(gdmlfileFittingGeant4)
 
-# copy the gdmlRoot olympusWriter and build the gdmlBigFittingGeant4 olympusWriter
+# copy the gdmlRoot.cookerWriter and build the gdmlBigFittingGeant4.cookerWriter
 
 gdmlfileBigFittingGeant4 = '../gdml_files/BigFittingGeant4' + tag + '.gdml'
 print '\nCopying ' + gdmlRoot.gdmlfile + ' content to ' + gdmlfileBigFittingGeant4
@@ -195,7 +195,7 @@ gdmlBigFittingGeant4 = gdmlRoot.copy()
 gdmlBigFittingGeant4.worldname = worldname
 gdmlBigFittingGeant4.setFile(gdmlfileBigFittingGeant4)
 
-# finish building the gdmlRoot olympusWriter
+# finish building the gdmlRoot.cookerWriter
 
 print '\nNow back to working on ' + gdmlRoot.gdmlfile
 
@@ -205,7 +205,7 @@ gdmlRoot.ignoreNoVolume()
 gdmlRoot.ignoreVolumes(omit)
 buildVolumes(gdmlRoot, volfile, False)
 
-# copy the gdmlRoot olympusWriter and build the gdmlGeant4 olympusWriter
+# copy the gdmlRoot.cookerWriter and build the gdmlGeant4.cookerWriter
 
 gdmlfileGeant4 = '../gdml_files/Geant4' + tag + '.gdml'
 print '\nCopying ' + gdmlRoot.gdmlfile + ' content to ' + gdmlfileGeant4
@@ -261,7 +261,7 @@ gdmlRoot.ignoreNoVolume()
 gdmlRoot.ignoreVolumes(omit)
 buildVolumes(gdmlRoot, volfile, False)
 
-# build the gdmlFittingGeant4 olympusWriter
+# build the gdmlFittingGeant4.cookerWriter
 
 print '\nGenerating ' + gdmlFittingGeant4.gdmlfile
 print 'World volume: ' + gdmlFittingGeant4.worldname
@@ -274,7 +274,7 @@ gdmlFittingGeant4.ignoreNoVolume()
 gdmlFittingGeant4.ignoreVolumes(omit)
 buildVolumes(gdmlFittingGeant4, fitvolfile, False)
 
-# build the gdmlBigFittingGeant4 olympusWriter
+# build the gdmlBigFittingGeant4.cookerWriter
 
 print '\nGenerating ' + gdmlBigFittingGeant4.gdmlfile
 print 'World volume: ' + gdmlBigFittingGeant4.worldname
@@ -303,9 +303,9 @@ olympusWriters = {gdmlRoot: volfile,
                   gdmlBigFittingGeant4: bigfitvolfile}
 sub = 0
 
-for owriter in olympusWriters:
+for owriter in.cookerWriters:
     print '\nBuilding the World volume for ' + owriter.gdmlfile
-    buildVolumes(owriter, olympusWriters[owriter])
+    buildVolumes(owriter,.cookerWriters[owriter])
     owriter.addSetup('Default', '3.' + str(sub), owriter.worldname)
     print 'Writing ' + owriter.gdmlfile
     owriter.writeFile()

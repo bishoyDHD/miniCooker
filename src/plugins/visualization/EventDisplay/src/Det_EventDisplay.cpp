@@ -1,5 +1,5 @@
 //
-// MUSE 3D Event Display, based on OLYMPUS 3D Display
+//.cooker 3D Event Display, based on.cooker 3D Display
 // modified by JCB. 
 
 #include <Det_EventDisplay.h>
@@ -12,7 +12,7 @@
 #include <string>
 #include <cmath>
 
-#include "muserawtree.h"
+#include .cookerrawtree.h"
 
 // ROOT openGL and EVE framework headers
 #include "TSystem.h"
@@ -82,10 +82,10 @@ void Det_EventDisplay::GenerateDet()
 
   // Import the default geometry file or use the command line geometry
   char buffer[1024];
-  if (!choosegeo) geofile = "muse_v1"; // Default geometry file
+  if (!choosegeo) geofile = .cooker_v1"; // Default geometry file
 
   // Write out the file name
-  snprintf(buffer,1000,"%s/.muse/shared/gdml/%s.gdml",getenv("COOKERHOME"),geofile);
+  snprintf(buffer,1000,"%s/.cooker/shared/gdml/%s.gdml",getenv("COOKERHOME"),geofile);
 
   gGeoManager=gEve->GetGeometry(buffer);
   gGeoManager->DefaultColors();
@@ -369,16 +369,16 @@ Long_t Det_EventDisplay::startup()
       vframe->MapSubwindows();
       vframe->MapWindow();
 
-      // Make the almighty and holy MUSE logo (unless told not to at command line)
+      // Make the almighty and holy.cooker logo (unless told not to at command line)
       if (!stoplogo)
 	{
 	  char filenameBuffer[1024];
 	  strcpy(filenameBuffer,getenv("COOKERHOME"));
-	  strcat(filenameBuffer,"/.muse/shared/EventDisplay/muse.png");
+	  strcat(filenameBuffer,"/.cooker/shared/EventDisplay.cooker.png");
 	  int width = (runNumber->GetWidth())*1.45;      
 	  const TGPicture *ipic =(TGPicture *)gClient->GetPicture(filenameBuffer,width,width*480/640);
-	  TGIcon *muse = new TGIcon(logo,ipic,width,width*480/640);
-	  logo->AddFrame(muse,new TGLayoutHints(kLHintsTop | kLHintsExpandX, 0, 0, 0, 0));
+	  TGIcon .cooker = new TGIcon(logo,ipic,width,width*480/640);
+	  logo->AddFrame.cooker,new TGLayoutHints(kLHintsTop | kLHintsExpandX, 0, 0, 0, 0));
 	}
 
       // Layout the bottom bar

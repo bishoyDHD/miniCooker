@@ -14,7 +14,7 @@
 
 char commanddate[]="declare variable $date as xs:dateTime external;\n\
  declare variable $detector as xs:string external;\n\
- for $i in     for $h in /museinit/*[name()=$detector]/date/*\
+ for $i in     for $h in .cookerinit/*[name()=$detector]/date/*\
  let $n:=name($h)\n\
  where $h/../@time<=$date\n\
    return \n\
@@ -22,17 +22,17 @@ char commanddate[]="declare variable $date as xs:dateTime external;\n\
 	       	      if ( $h/id ) then \n\
 	       	      	 for $k in $h/id\n\
 		      	     return element{node-name ($h)}\n\
-		      	       { $h/../@time, $h/@* ,$k/@id, attribute {\"fct\"}{data(/museinit/*[name()=$detector]/config/*[name()=$n]) },$k/node()}\n\
+		      	       { $h/../@time, $h/@* ,$k/@id, attribute {\"fct\"}{data(.cookerinit/*[name()=$detector]/config/*[name()=$n]) },$k/node()}\n\
 		      else\n\
 			    element{node-name ($h)}\n\
-		       	       { $h/../@time, $h/@* , attribute {\"fct\"}{data(/museinit/*[name()=$detector]/config/*[name()=$n]) },$h/node()}\n\
+		       	       { $h/../@time, $h/@* , attribute {\"fct\"}{data(.cookerinit/*[name()=$detector]/config/*[name()=$n]) },$h/node()}\n\
 		 	       (: Attach time to child :)\n\
     order by name($i),$i/@id, $i/@time descending\n\
     return $i";
 
 char commandrun[]="declare variable $runnum as xs:integer external;\n\
  declare variable $detector as xs:string external;\n\
- for $i in     for $h in /museinit/*[name()=$detector]/run/*\
+ for $i in     for $h in .cookerinit/*[name()=$detector]/run/*\
  let $n:=name($h)\n\
  where $h/../@nr<=$runnum\n\
    return \n\
@@ -40,10 +40,10 @@ char commandrun[]="declare variable $runnum as xs:integer external;\n\
 	       	      if ( $h/id ) then \n\
 	       	      	 for $k in $h/id\n\
 		      	     return element{node-name ($h)}\n\
-		      	       { $h/../@nr, $h/@* ,$k/@id, attribute {\"fct\"}{data(/museinit/*[name()=$detector]/config/*[name()=$n]) },$k/node()}\n\
+		      	       { $h/../@nr, $h/@* ,$k/@id, attribute {\"fct\"}{data(.cookerinit/*[name()=$detector]/config/*[name()=$n]) },$k/node()}\n\
 		      else\n\
 			    element{node-name ($h)}\n\
-		       	       { $h/../@nr, $h/@* , attribute {\"fct\"}{data(/museinit/*[name()=$detector]/config/*[name()=$n]) },$h/node()}\n\
+		       	       { $h/../@nr, $h/@* , attribute {\"fct\"}{data(.cookerinit/*[name()=$detector]/config/*[name()=$n]) },$h/node()}\n\
 		 	       (: Attach time to child :)\n\
     order by name($i),$i/@id, $i/@nr descending\n\
     return $i";
@@ -55,10 +55,10 @@ class xmlbasefilter: public DOMLSParserFilter::DOMLSParserFilter
 public:
   virtual FilterAction startElement(DOMElement * node )
   {
-    if (std::string(UTF8(node->getAttribute(X("xml:base"))))=="homedir/.muse/shared/")
+    if (std::string(UTF8(node->getAttribute(X("xml:base"))))=="homedir/.cooker/shared/")
       {
 	char buf[10000];
-	snprintf(buf,10000,"file://%s/.muse/shared/",getenv("COOKERHOME"));
+	snprintf(buf,10000,"file://%s/.cooker/shared/",getenv("COOKERHOME"));
 	node->setAttribute(X("xml:base"),X(buf));
       }
   return FILTER_ACCEPT ;
@@ -174,7 +174,7 @@ InitReader::InitReader(std::string filename,std::string date, int runnr)
     context =xqilla.createContext(XQilla::XQUERY);
     querynr= xqilla.parse(X(commandrun),context);
 
-    //   query= xqilla.parse(X("for $i in /museinit/ToF/*\nreturn $i"),context);
+    //   query= xqilla.parse(X("for $i in .cookerinit/ToF/*\nreturn $i"),context);
 
     
     Item::Ptr item;

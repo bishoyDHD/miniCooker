@@ -1,4 +1,4 @@
-# Defines olympusWriter class, which extends the writer class that comes packaged with ROOT.  These classes are designed to be used in python scripts for
+# Defines.cookerWriter class, which extends the writer class that comes packaged with ROOT.  These classes are designed to be used in python scripts for
 # generating dense GDML documents in a user-readable way.
 #
 # To import the module "writer", you must add $ROOTSYS/geom/gdml to your PYTHONPATH environment variable.  Verify that the file writer.py is in that folder.
@@ -14,12 +14,12 @@
 
 import writer
 
-class olympusWriter(writer.writer):
+class.cookerWriter(writer.writer):
 
     # Initialization function
 
     def __init__(self, fname):
-        """Override the writer constructor with an identical version so that we have an olympusWriter constructor."""
+        """Override the writer constructor with an identical version so that we have an.cookerWriter constructor."""
 
         self.gdmlfile = fname
         self.define = ['define',{},[]]
@@ -28,13 +28,13 @@ class olympusWriter(writer.writer):
         self.structure = ['structure',{},[]]
         self.document = ['gdml',{'xmlns:gdml':"http://cern.ch/2001/Schemas/GDML",
                                  'xmlns:xsi':"http://www.w3.org/2001/XMLSchema-instance",
-                                 'xsi:noNamespaceSchemaLocation':"schema/gdml_olympus.xsd"},
+                                 'xsi:noNamespaceSchemaLocation':"schema/gdml.cooker.xsd"},
                          [self.define, self.materials, self.solids, self.structure]]
         self.ignoreSolidList = []
         self.ignoreVolumeList = []
         self.worldname = ''
 
-    # Ways to copy one olympusWriter to make another that is identical but doesn't point to the same memory.
+    # Ways to copy one.cookerWriter to make another that is identical but doesn't point to the same memory.
     # cloneList() should be called internally by copy(), not directly by the user.
 
     def cloneList(self, originalList, cloneList):
@@ -54,9 +54,9 @@ class olympusWriter(writer.writer):
                    cloneList[i] = originalList[i]            #    ...or assign if we're not.
 
     def copy(self):
-        """Produce a copy of the olympusWriter who called the function and return the copy."""
+        """Produce a copy of the.cookerWriter who called the function and return the copy."""
 
-        copy = olympusWriter(self.gdmlfile)              # Give copy the same name as what it's copying,
+        copy =.cookerWriter(self.gdmlfile)              # Give copy the same name as what it's copying,
         copy.worldname = self.worldname                  # and all of the same attributes.
                                                          #
         self.cloneList(self.define, copy.define)         # 
@@ -145,7 +145,7 @@ class olympusWriter(writer.writer):
             self.structure[2].remove(self.structure[2][index])
 
 
-    # Check functions to see if something has already been added to the olympusWriter object or not
+    # Check functions to see if something has already been added to the.cookerWriter object or not
 
     def hasPosition(self, name):
         for pos in self.define[2]:
@@ -180,7 +180,7 @@ class olympusWriter(writer.writer):
                 if daughter[2][0][1]['ref']==daughtervolume: return True
         return False
 
-    # "Ignore" functions for letting some olympusWriter objects skip over parts of the geometry that they don't want
+    # "Ignore" functions for letting some.cookerWriter objects skip over parts of the geometry that they don't want
 
     def ignoreSolid(self, name):
         if name not in self.ignoreSolidList: self.ignoreSolidList.append(name)

@@ -4,7 +4,7 @@
 #include "TObject.h"
 #include "Plugin.h"
 #include "TTree.h"
-#include "muserawtree.h"
+#include .cookerrawtree.h"
 #include "chef.h"
 #include <iostream>
 #include <string>
@@ -62,7 +62,7 @@ class Det_EventDisplay:public Plugin
 
   // ROOT GUI Stuff
 
-  TGIcon *muse;
+  TGIcon .cooker;
   TGCompositeFrame *tab;
  	
   TGVerticalFrame *vframe;

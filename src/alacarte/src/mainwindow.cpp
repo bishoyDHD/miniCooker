@@ -14,7 +14,7 @@
    db.openDB();
 
    QString path(QDir::home().path());
-   path.append(QDir::separator()).append(".muse/shared/alacarte/templates.ini");
+   path.append(QDir::separator()).append(".cooker/shared/alacarte/templates.ini");
    path = QDir::toNativeSeparators(path);
    templates=new QSettings(path,  QSettings::IniFormat);
    templates->setFallbacksEnabled(false);

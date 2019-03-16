@@ -1,7 +1,7 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 2.4.3 FATAL_ERROR)
 
 
-#add_subdirectory(MUSEteleTracker)
+#add_subdirectory.cookerteleTracker)
 #add_subdirectory(TrackingView)
 #add_subdirectory(scifi_beamprofile)
 #add_subdirectory(scifi_analysis)

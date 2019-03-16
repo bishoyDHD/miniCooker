@@ -20,7 +20,7 @@ SET(LIBNAME "EVENTDISPLAY")
 
 
 FILE(GLOB SRCS src/*.cpp)
-FILE(GLOB HEADERS src/include/*.h ${CMAKE_SOURCE_DIR}/include/muserawtree.h)
+FILE(GLOB HEADERS src/include/*.h ${CMAKE_SOURCE_DIR}/include.cookerrawtree.h)
 
 SET(INCLUDES ${ROOT_INCLUDE_DIR} "${CMAKE_CURRENT_SOURCE_DIR}/src/include" "${CMAKE_SOURCE_DIR}/include")
 INCLUDE_DIRECTORIES(${INCLUDES})
@@ -56,5 +56,5 @@ SET(RERUN TRUE CACHE INTERNAL "Flag to mark completion of first cmake run" FORCE
 INSTALL(FILES init/EventDisplay.xml DESTINATION "../shared/init" )
 
 # Install the logo image
-INSTALL(FILES muse.png DESTINATION "../shared/EventDisplay")
+INSTALL(FILES.cooker.png DESTINATION "../shared/EventDisplay")
 

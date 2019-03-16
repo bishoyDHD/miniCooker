@@ -5,7 +5,7 @@ int main (int argc, char ** argv)
 {
 
   QApplication app(argc,argv);
-  app.setOrganizationName("Olympus");
+  app.setOrganizationName(.cooker");
   app.setApplicationName("A la carte");
 
   app.setStyleSheet("QLineEdit::disabled {background: darkgray;}");

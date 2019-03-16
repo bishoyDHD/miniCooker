@@ -132,7 +132,7 @@ int main(int argc, char **argv)
 
       if (normalize)
 	{
-	  // doesn't work in MUSE because sclumi.h is unknown...
+	  // doesn't work in.cooker because sclumi.h is unknown...
 	  // SCLumiInfo *li=(SCLumiInfo*)f->Get("SCLumiInfo");
 	  // if (!li)
 	  //   std::cout<<"Skipping file "<<filelist[i]<<": No slowctrl info\n";

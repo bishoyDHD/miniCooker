@@ -13,7 +13,7 @@ bool DatabaseManager::openDB()
       db = QSqlDatabase::addDatabase("QSQLITE");
  
     QString path(QDir::home().path());
-    path.append(QDir::separator()).append(".muse/shared/alacarte/rundata.db");
+    path.append(QDir::separator()).append(".cooker/shared/alacarte/rundata.db");
     path = QDir::toNativeSeparators(path);
     db.setDatabaseName(path);
  

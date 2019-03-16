@@ -61,7 +61,7 @@ std::vector<callinfo*> Chef::compilelist(std::vector<class_method> &list)
 Chef::Chef(std::string recipename,unsigned int seed,unsigned int gskip, unsigned int gseed):recipe(recipename)
 {
   // set dynamic path
-  gSystem->AddDynamicPath("~/.muse/" ARCHDIR "/lib");
+  gSystem->AddDynamicPath("~/.cooker/" ARCHDIR "/lib");
   
   //set COOKERHOME
   setenv("COOKERHOME",getenv("HOME"),0);
@@ -190,7 +190,7 @@ void Chef::loadPlugins(int rank)
       std::cout<<"Loading: "<<iter->second<<" as "<<iter->first;
       // DESPITE THE DOCUMENTATION WHICH SAYS IT CAN
 
-      //  void *handle=dlopen(gSystem->ExpandPathName((std::string("~/.olympus/"ARCHDIR"/lib/")+iter->second+std::string(LIBSUFFIX)).c_str()),RTLD_LAZY);
+      //  void *handle=dlopen(gSystem->ExpandPathName((std::string("~/.cooker/"ARCHDIR"/lib/")+iter->second+std::string(LIBSUFFIX)).c_str()),RTLD_LAZY);
 
       void *handle=dlopen((iter->second+std::string(LIBSUFFIX)).c_str(),RTLD_LAZY);
       if (handle) std::cout<<"................success"<<std::endl;
