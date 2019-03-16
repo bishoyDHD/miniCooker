@@ -18,14 +18,3 @@ add_subdirectory(combine)
 set (BUILD_WITHDB off CACHE bool "Enable DB link for database
 (normally off)")
 
-#Things we might need later
-
-#add_subdirectory(Reconstruction)
-#add_subdirectory(Survey)
-add_subdirectory(gdml)
-#add_subdirectory(udpLog)
-
-#set (BUILD_ALACARTE on CACHE bool "Enable build of alacarte")
-#IF(BUILD_ALACARTE)
-#  add_subdirectory(alacarte)
-#ENDIF ()
