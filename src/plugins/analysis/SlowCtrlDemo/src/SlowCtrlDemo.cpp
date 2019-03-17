@@ -26,7 +26,7 @@ Long_t SlowCtrlDemo::startup()
       exit(-1);
     }
 
-  slctrl_fs11_u=scmanager->getLastValidByName(.cooker:BL:FS11-U:POS:AV");
+  slctrl_fs11_u=scmanager->getLastValidByName("COOKER:BL:FS11-U:POS:AV");
   return 0;
 }
 

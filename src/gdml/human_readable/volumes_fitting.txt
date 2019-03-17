@@ -4,109 +4,109 @@ Logical Volume: WC_wire0_log0
 	Solid: WC_wire0_solid0
 	Material: WC_gas
 	Color: t500500999
-	Sensitive Detector:.cooker/WC_Cell
+	Sensitive Detector:OLYMPUS/WC_Cell
 
 Logical Volume: WC_wire1_log0
 	Solid: WC_wire1_solid0
 	Material: WC_gas
 	Color: t500999500
-	Sensitive Detector:.cooker/WC_Cell
+	Sensitive Detector:OLYMPUS/WC_Cell
 
 Logical Volume: WC_wire2_log0
 	Solid: WC_wire2_solid0
 	Material: WC_gas
 	Color: t999500500
-	Sensitive Detector:.cooker/WC_Cell
+	Sensitive Detector:OLYMPUS/WC_Cell
 
 Logical Volume: WC_wire0_log18
 	Solid: WC_wire0_solid18
 	Material: WC_gas
 	Color: t500500999
-	Sensitive Detector:.cooker/WC_Cell
+	Sensitive Detector:OLYMPUS/WC_Cell
 
 Logical Volume: WC_wire1_log18
 	Solid: WC_wire1_solid18
 	Material: WC_gas
 	Color: t500999500
-	Sensitive Detector:.cooker/WC_Cell
+	Sensitive Detector:OLYMPUS/WC_Cell
 
 Logical Volume: WC_wire2_log18
 	Solid: WC_wire2_solid18
 	Material: WC_gas
 	Color: t999500500
-	Sensitive Detector:.cooker/WC_Cell
+	Sensitive Detector:OLYMPUS/WC_Cell
 
 Logical Volume: WC_wire0_log37
 	Solid: WC_wire0_solid37
 	Material: WC_gas
 	Color: t500500999
-	Sensitive Detector:.cooker/WC_Cell
+	Sensitive Detector:OLYMPUS/WC_Cell
 
 Logical Volume: WC_wire1_log37
 	Solid: WC_wire1_solid37
 	Material: WC_gas
 	Color: t500999500
-	Sensitive Detector:.cooker/WC_Cell
+	Sensitive Detector:OLYMPUS/WC_Cell
 
 Logical Volume: WC_wire2_log37
 	Solid: WC_wire2_solid37
 	Material: WC_gas
 	Color: t999500500
-	Sensitive Detector:.cooker/WC_Cell
+	Sensitive Detector:OLYMPUS/WC_Cell
 
 Logical Volume: WC_wire0_log63
 	Solid: WC_wire0_solid63
 	Material: WC_gas
 	Color: t500500999
-	Sensitive Detector:.cooker/WC_Cell
+	Sensitive Detector:OLYMPUS/WC_Cell
 
 Logical Volume: WC_wire1_log63
 	Solid: WC_wire1_solid63
 	Material: WC_gas
 	Color: t500999500
-	Sensitive Detector:.cooker/WC_Cell
+	Sensitive Detector:OLYMPUS/WC_Cell
 
 Logical Volume: WC_wire2_log63
 	Solid: WC_wire2_solid63
 	Material: WC_gas
 	Color: t999500500
-	Sensitive Detector:.cooker/WC_Cell
+	Sensitive Detector:OLYMPUS/WC_Cell
 
 Logical Volume: WC_wire0_log90
 	Solid: WC_wire0_solid90
 	Material: WC_gas
 	Color: t500500999
-	Sensitive Detector:.cooker/WC_Cell
+	Sensitive Detector:OLYMPUS/WC_Cell
 
 Logical Volume: WC_wire1_log90
 	Solid: WC_wire1_solid90
 	Material: WC_gas
 	Color: t500999500
-	Sensitive Detector:.cooker/WC_Cell
+	Sensitive Detector:OLYMPUS/WC_Cell
 
 Logical Volume: WC_wire2_log90
 	Solid: WC_wire2_solid90
 	Material: WC_gas
 	Color: t999500500
-	Sensitive Detector:.cooker/WC_Cell
+	Sensitive Detector:OLYMPUS/WC_Cell
 
 Logical Volume: WC_wire0_log124
 	Solid: WC_wire0_solid124
 	Material: WC_gas
 	Color: t500500999
-	Sensitive Detector:.cooker/WC_Cell
+	Sensitive Detector:OLYMPUS/WC_Cell
 
 Logical Volume: WC_wire1_log124
 	Solid: WC_wire1_solid124
 	Material: WC_gas
 	Color: t500999500
-	Sensitive Detector:.cooker/WC_Cell
+	Sensitive Detector:OLYMPUS/WC_Cell
 
 Logical Volume: WC_wire2_log124
 	Solid: WC_wire2_solid124
 	Material: WC_gas
 	Color: t999500500
-	Sensitive Detector:.cooker/WC_Cell
+	Sensitive Detector:OLYMPUS/WC_Cell
 
 Logical Volume: WC_layer_log0
 	Solid: WC_layer_solid0
@@ -396,109 +396,109 @@ Logical Volume: WC_wire0_2_log0
 	Solid: WC_wire0_solid0
 	Material: WC_gas
 	Color: t500500999
-	Sensitive Detector:.cooker/WC_Cell
+	Sensitive Detector:OLYMPUS/WC_Cell
 
 Logical Volume: WC_wire1_2_log0
 	Solid: WC_wire1_solid0
 	Material: WC_gas
 	Color: t500999500
-	Sensitive Detector:.cooker/WC_Cell
+	Sensitive Detector:OLYMPUS/WC_Cell
 
 Logical Volume: WC_wire2_2_log0
 	Solid: WC_wire2_solid0
 	Material: WC_gas
 	Color: t999500500
-	Sensitive Detector:.cooker/WC_Cell
+	Sensitive Detector:OLYMPUS/WC_Cell
 
 Logical Volume: WC_wire0_2_log18
 	Solid: WC_wire0_solid18
 	Material: WC_gas
 	Color: t500500999
-	Sensitive Detector:.cooker/WC_Cell
+	Sensitive Detector:OLYMPUS/WC_Cell
 
 Logical Volume: WC_wire1_2_log18
 	Solid: WC_wire1_solid18
 	Material: WC_gas
 	Color: t500999500
-	Sensitive Detector:.cooker/WC_Cell
+	Sensitive Detector:OLYMPUS/WC_Cell
 
 Logical Volume: WC_wire2_2_log18
 	Solid: WC_wire2_solid18
 	Material: WC_gas
 	Color: t999500500
-	Sensitive Detector:.cooker/WC_Cell
+	Sensitive Detector:OLYMPUS/WC_Cell
 
 Logical Volume: WC_wire0_2_log37
 	Solid: WC_wire0_solid37
 	Material: WC_gas
 	Color: t500500999
-	Sensitive Detector:.cooker/WC_Cell
+	Sensitive Detector:OLYMPUS/WC_Cell
 
 Logical Volume: WC_wire1_2_log37
 	Solid: WC_wire1_solid37
 	Material: WC_gas
 	Color: t500999500
-	Sensitive Detector:.cooker/WC_Cell
+	Sensitive Detector:OLYMPUS/WC_Cell
 
 Logical Volume: WC_wire2_2_log37
 	Solid: WC_wire2_solid37
 	Material: WC_gas
 	Color: t999500500
-	Sensitive Detector:.cooker/WC_Cell
+	Sensitive Detector:OLYMPUS/WC_Cell
 
 Logical Volume: WC_wire0_2_log63
 	Solid: WC_wire0_solid63
 	Material: WC_gas
 	Color: t500500999
-	Sensitive Detector:.cooker/WC_Cell
+	Sensitive Detector:OLYMPUS/WC_Cell
 
 Logical Volume: WC_wire1_2_log63
 	Solid: WC_wire1_solid63
 	Material: WC_gas
 	Color: t500999500
-	Sensitive Detector:.cooker/WC_Cell
+	Sensitive Detector:OLYMPUS/WC_Cell
 
 Logical Volume: WC_wire2_2_log63
 	Solid: WC_wire2_solid63
 	Material: WC_gas
 	Color: t999500500
-	Sensitive Detector:.cooker/WC_Cell
+	Sensitive Detector:OLYMPUS/WC_Cell
 
 Logical Volume: WC_wire0_2_log90
 	Solid: WC_wire0_solid90
 	Material: WC_gas
 	Color: t500500999
-	Sensitive Detector:.cooker/WC_Cell
+	Sensitive Detector:OLYMPUS/WC_Cell
 
 Logical Volume: WC_wire1_2_log90
 	Solid: WC_wire1_solid90
 	Material: WC_gas
 	Color: t500999500
-	Sensitive Detector:.cooker/WC_Cell
+	Sensitive Detector:OLYMPUS/WC_Cell
 
 Logical Volume: WC_wire2_2_log90
 	Solid: WC_wire2_solid90
 	Material: WC_gas
 	Color: t999500500
-	Sensitive Detector:.cooker/WC_Cell
+	Sensitive Detector:OLYMPUS/WC_Cell
 
 Logical Volume: WC_wire0_2_log124
 	Solid: WC_wire0_solid124
 	Material: WC_gas
 	Color: t500500999
-	Sensitive Detector:.cooker/WC_Cell
+	Sensitive Detector:OLYMPUS/WC_Cell
 
 Logical Volume: WC_wire1_2_log124
 	Solid: WC_wire1_solid124
 	Material: WC_gas
 	Color: t500999500
-	Sensitive Detector:.cooker/WC_Cell
+	Sensitive Detector:OLYMPUS/WC_Cell
 
 Logical Volume: WC_wire2_2_log124
 	Solid: WC_wire2_solid124
 	Material: WC_gas
 	Color: t999500500
-	Sensitive Detector:.cooker/WC_Cell
+	Sensitive Detector:OLYMPUS/WC_Cell
 
 Logical Volume: WC_layer_2_log0
 	Solid: WC_layer_solid0
@@ -866,7 +866,7 @@ Logical Volume: LM_Drift_log0
 	Solid: LM_Drift_solid0
 	Material: GEM_gas
 	Color: t999999999
-	Sensitive Detector:.cooker/LM
+	Sensitive Detector:OLYMPUS/LM
 
 Logical Volume: LM_log0
 	Solid: LM_solid0
@@ -880,7 +880,7 @@ Logical Volume: LM_Drift_log1
 	Solid: LM_Drift_solid0
 	Material: GEM_gas
 	Color: t999999999
-	Sensitive Detector:.cooker/LM
+	Sensitive Detector:OLYMPUS/LM
 
 Logical Volume: LM_log1
 	Solid: LM_solid0
@@ -894,7 +894,7 @@ Logical Volume: LM_Drift_log2
 	Solid: LM_Drift_solid0
 	Material: GEM_gas
 	Color: t999999999
-	Sensitive Detector:.cooker/LM
+	Sensitive Detector:OLYMPUS/LM
 
 Logical Volume: LM_log2
 	Solid: LM_solid0
@@ -908,7 +908,7 @@ Logical Volume: LM_Drift_log3
 	Solid: LM_Drift_solid0
 	Material: GEM_gas
 	Color: t999999999
-	Sensitive Detector:.cooker/LM
+	Sensitive Detector:OLYMPUS/LM
 
 Logical Volume: LM_log3
 	Solid: LM_solid0
@@ -922,7 +922,7 @@ Logical Volume: LM_Drift_log4
 	Solid: LM_Drift_solid0
 	Material: GEM_gas
 	Color: t999999999
-	Sensitive Detector:.cooker/LM
+	Sensitive Detector:OLYMPUS/LM
 
 Logical Volume: LM_log4
 	Solid: LM_solid0
@@ -936,7 +936,7 @@ Logical Volume: LM_Drift_log5
 	Solid: LM_Drift_solid0
 	Material: GEM_gas
 	Color: t999999999
-	Sensitive Detector:.cooker/LM
+	Sensitive Detector:OLYMPUS/LM
 
 Logical Volume: LM_log5
 	Solid: LM_solid0
@@ -950,7 +950,7 @@ Logical Volume: MW_Drift_log0
 	Solid: MW_Drift_solid0
 	Material: MWPC_gas
 	Color: t999000123
-	Sensitive Detector:.cooker/MW
+	Sensitive Detector:OLYMPUS/MW
 
 Logical Volume: MW_log0
 	Solid: MW_solid0
@@ -964,7 +964,7 @@ Logical Volume: MW_Drift_log1
 	Solid: MW_Drift_solid0
 	Material: MWPC_gas
 	Color: t999000123
-	Sensitive Detector:.cooker/MW
+	Sensitive Detector:OLYMPUS/MW
 
 Logical Volume: MW_log1
 	Solid: MW_solid0
@@ -978,7 +978,7 @@ Logical Volume: MW_Drift_log2
 	Solid: MW_Drift_solid0
 	Material: MWPC_gas
 	Color: t999000123
-	Sensitive Detector:.cooker/MW
+	Sensitive Detector:OLYMPUS/MW
 
 Logical Volume: MW_log2
 	Solid: MW_solid0
@@ -992,7 +992,7 @@ Logical Volume: MW_Drift_log3
 	Solid: MW_Drift_solid0
 	Material: MWPC_gas
 	Color: t999000123
-	Sensitive Detector:.cooker/MW
+	Sensitive Detector:OLYMPUS/MW
 
 Logical Volume: MW_log3
 	Solid: MW_solid0
@@ -1006,7 +1006,7 @@ Logical Volume: MW_Drift_log4
 	Solid: MW_Drift_solid0
 	Material: MWPC_gas
 	Color: t999000123
-	Sensitive Detector:.cooker/MW
+	Sensitive Detector:OLYMPUS/MW
 
 Logical Volume: MW_log4
 	Solid: MW_solid0
@@ -1020,7 +1020,7 @@ Logical Volume: MW_Drift_log5
 	Solid: MW_Drift_solid0
 	Material: MWPC_gas
 	Color: t999000123
-	Sensitive Detector:.cooker/MW
+	Sensitive Detector:OLYMPUS/MW
 
 Logical Volume: MW_log5
 	Solid: MW_solid0
@@ -1034,25 +1034,25 @@ Logical Volume: SI_log0
 	Solid: SI_solid0
 	Material: G4_PLASTIC_SC_VINYLTOLUENE
 	Color: t800000800
-	Sensitive Detector:.cooker/SI
+	Sensitive Detector:OLYMPUS/SI
 
 Logical Volume: SI_log1
 	Solid: SI_solid0
 	Material: G4_PLASTIC_SC_VINYLTOLUENE
 	Color: t800000800
-	Sensitive Detector:.cooker/SI
+	Sensitive Detector:OLYMPUS/SI
 
 Logical Volume: SI_log2
 	Solid: SI_solid0
 	Material: G4_PLASTIC_SC_VINYLTOLUENE
 	Color: t800000800
-	Sensitive Detector:.cooker/SI
+	Sensitive Detector:OLYMPUS/SI
 
 Logical Volume: SI_log3
 	Solid: SI_solid0
 	Material: G4_PLASTIC_SC_VINYLTOLUENE
 	Color: t800000800
-	Sensitive Detector:.cooker/SI
+	Sensitive Detector:OLYMPUS/SI
 
 Logical Volume: World_log0
 	Solid: World_solid0

@@ -1,6 +1,6 @@
 //
 //.cooker 3D Event Display, based on.cooker 3D Display
-// modified by JCB. 
+// modified by JCB.
 
 #include <Det_EventDisplay.h>
 
@@ -12,7 +12,7 @@
 #include <string>
 #include <cmath>
 
-#include .cookerrawtree.h"
+#include "cookerrawtree.h"
 
 // ROOT openGL and EVE framework headers
 #include "TSystem.h"
@@ -61,7 +61,7 @@ using namespace std;
 Det_EventDisplay::Det_EventDisplay(TTree *in, TTree *out, TFile *inf_, TFile *outf_, TObject *p):Plugin(in,out,inf_,outf_,p)
 {
 
-  // By default, there is no geometry file input (use the default)  
+  // By default, there is no geometry file input (use the default)
   choosegeo = false;
 
   // By default, include the logo
@@ -82,7 +82,7 @@ void Det_EventDisplay::GenerateDet()
 
   // Import the default geometry file or use the command line geometry
   char buffer[1024];
-  if (!choosegeo) geofile = .cooker_v1"; // Default geometry file
+  if (!choosegeo) geofile = "cooker_v1"; // Default geometry file
 
   // Write out the file name
   snprintf(buffer,1000,"%s/.cooker/shared/gdml/%s.gdml",getenv("COOKERHOME"),geofile);
@@ -99,8 +99,8 @@ void Det_EventDisplay::GenerateDet()
 
   // Get the pointers to all the nodes you might want to edit
   findnodes();
-   
- 
+
+
   // Set default colors, visibility, etc.
 
 
@@ -124,7 +124,7 @@ void Det_EventDisplay::GenerateDet()
 Long_t Det_EventDisplay::useGeo(const char* cg)
 {
   choosegeo = true;
-  geofile = cg;   
+  geofile = cg;
   return 0;
 }
 
@@ -160,7 +160,7 @@ Long_t Det_EventDisplay::startup()
 
   // Add a tab in visco
   tab=addTab("Event Display");
-  
+
   // As long as the tab is on, go nuts with laying things out
   if (tab)
     {
@@ -273,7 +273,7 @@ Long_t Det_EventDisplay::startup()
       runNumber->SetWidth(100);
       runNumber->SetMaxHeight(16);
       runNumber->ChangeOptions(runNumber->GetOptions() | kFixedHeight);
-      
+
       // Detector Display buttons
       saveButton = new TGTextButton(camframe, "Save Image",1);
       saveButton->Connect("Clicked()","Det_EventDisplay",this,"saveImage()");
@@ -331,7 +331,7 @@ Long_t Det_EventDisplay::startup()
       TGLayoutHints *fill = new TGLayoutHints(kLHintsExpandX | kLHintsExpandY, 0,0,0,0);
 
 
-      
+
       // Instantiate the necessary EVE classes for track/hit displays
       TEveManager::Create(kFALSE);
       TEveViewer *eve_v = new TEveViewer("Eve Viewer");
@@ -344,7 +344,7 @@ Long_t Det_EventDisplay::startup()
       // Call the detector geometry drawer
       GenerateDet();
 
-      
+
       // Layout the display
 
       vframe->AddFrame(logo, stacktop);
@@ -354,13 +354,13 @@ Long_t Det_EventDisplay::startup()
       if (key) vframe->AddFrame(keyframe, new TGLayoutHints(kLHintsTop | kLHintsExpandX, 0, 0, 5, 0));
       vframe->AddFrame(viewl, new TGLayoutHints(kLHintsTop | kLHintsExpandX, 0, 0, 5, 5));
       if (tableNodes.size()>0)
-	{	
+	{
 	  tableButton = new TGTextButton(vframe, "Table",1);
 	  tableButton->Connect("Clicked()","Det_EventDisplay",this,"tableView(=true)");
 	  vframe->AddFrame(tableButton,stacktop);
 	}
       if (chamberNodes.size()>0)
-	{	
+	{
 	  chamberButton = new TGTextButton(vframe, "Chamber",1);
 	  chamberButton->Connect("Clicked()","Det_EventDisplay",this,"chamberView(=true)");
 	  vframe->AddFrame(chamberButton,stacktop);
@@ -374,11 +374,11 @@ Long_t Det_EventDisplay::startup()
 	{
 	  char filenameBuffer[1024];
 	  strcpy(filenameBuffer,getenv("COOKERHOME"));
-	  strcat(filenameBuffer,"/.cooker/shared/EventDisplay.cooker.png");
-	  int width = (runNumber->GetWidth())*1.45;      
+	  strcat(filenameBuffer,"/.cooker/shared/EventDisplay/cooker.png");
+	  int width = (runNumber->GetWidth())*1.45;
 	  const TGPicture *ipic =(TGPicture *)gClient->GetPicture(filenameBuffer,width,width*480/640);
-	  TGIcon .cooker = new TGIcon(logo,ipic,width,width*480/640);
-	  logo->AddFrame.cooker,new TGLayoutHints(kLHintsTop | kLHintsExpandX, 0, 0, 0, 0));
+	  TGIcon *cooker = new TGIcon(logo,ipic,width,width*480/640);
+	  logo->AddFrame(cooker,new TGLayoutHints(kLHintsTop | kLHintsExpandX, 0, 0, 0, 0));
 	}
 
       // Layout the bottom bar
@@ -386,7 +386,7 @@ Long_t Det_EventDisplay::startup()
       camframe->AddFrame(camButton, stackleft);
       //      camframe->AddFrame(LVButton, stackleft);
       camframe->AddFrame(RDButton, stackleft);
-		
+
       //camframe->AddFrame(LEButton, stackleft);
       camframe->AddFrame(saveButton, stackright);
       camframe->AddFrame(saveName, stackright);
@@ -400,12 +400,12 @@ Long_t Det_EventDisplay::startup()
       tab->AddFrame(bot, new TGLayoutHints(kLHintsExpandX | kLHintsBottom,0,0,0,3));
       rframe->AddFrame(vframe, new TGLayoutHints( kLHintsLeft,5,5,0,0));
       rframe->AddFrame(V->GetFrame(), new TGLayoutHints(kLHintsLeft | kLHintsExpandY|kLHintsExpandX,0,0,0,0));
-      
+
 
         // Make the Event Display visco tab current
       ((TGTab *) getMemoryObject("Tab Widget"))->SetTab(2);
-    
-    
+
+
     }
 
   // Reset the ROOT warning level
@@ -458,7 +458,7 @@ void Det_EventDisplay::Persp()
 };
 
 // Orthographic view looking from above
-void Det_EventDisplay::OrthoTop() 
+void Det_EventDisplay::OrthoTop()
 {
   V->TGLViewer::SetCurrentCamera(TGLViewer::kCameraOrthoZOY);
   V->TGLViewer::SetStyle(TGLRnrCtx::kWireFrame);
@@ -480,7 +480,7 @@ void Det_EventDisplay::OrthoRear()
 void Det_EventDisplay::RedrawReq()
 {
   gEve->GetEventScene()->Changed();
-  gEve->FullRedraw3D(kFALSE);	
+  gEve->FullRedraw3D(kFALSE);
 };
 
 // Reset cameras to default views
@@ -502,9 +502,9 @@ void Det_EventDisplay::ResetCameras()
       break;
     case 2:
       V->TGLViewer::SetCurrentCamera(TGLViewer::kCameraOrthoXOZ);
-      break;   
+      break;
     }
-   
+
   // Redraw
   gEve->FullRedraw3D(kFALSE);
 }
@@ -559,7 +559,7 @@ void Det_EventDisplay::saveImage()
       sprintf(tdir,"%s/%s",gSystem->WorkingDirectory(),fname.Data());
       Long_t *id=0,*size=0,*flags=0,*mt=0;
       int fexists = gSystem->GetPathInfo(tdir,id,size,flags,mt);
-         
+
       if (fexists!=0 || overwrite) // Doesn't exist or overwrite requested
 	{
 	  V->TGLViewer::SavePicture(fname);
@@ -645,7 +645,7 @@ void printallnodes(TGeoNode *node,int level)
      std::cout<<level<<" "<<node->GetName()<<"\n";
       if (k) for (int j=0;j<k->GetEntriesFast();j++)
 	       printallnodes((TGeoNode*) k->At(j),level+1);
- 
+
 }
 
 Long_t Det_EventDisplay::findnodes()
@@ -661,16 +661,16 @@ Long_t Det_EventDisplay::findnodes()
     {
       TString name=  l->At(i)->GetName();
       std::cout<<name<<"\n";
-      
+
       if (name.BeginsWith("al_"))
 	tableNodes.push_back((TGeoNode  *)l->At(i));
-      
+
       if (name.BeginsWith("chamber_"))
 	chamberNodes.push_back((TGeoNode  *)l->At(i));
-      
+
 }
-      
-    
+
+
   // Return the bit count (0 if no failure)
   return (Long_t)all;
 

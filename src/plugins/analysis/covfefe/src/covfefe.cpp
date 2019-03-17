@@ -13,7 +13,7 @@
 
 #include <stdio.h>
 #include <math.h>
-//#include "~.cooker/external/cminpack/cminpack.h"
+//#include "~/cooker/external/cminpack/cminpack.h"
 #include "../../../../../external/cminpack/cminpack.h"
 
 int fcn(void *p, int m, int n, const double *x, double *fvec, int iflag);

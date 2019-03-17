@@ -20,7 +20,7 @@ RecipeReader::RecipeReader(std::string filename)
 
   try{ 
  
-   AutoDelete<XQQuery> qinit(xqilla.parse(X("data(.cooker/init)")));
+   AutoDelete<XQQuery> qinit(xqilla.parse(X("data(/cooker/init)")));
    AutoDelete<DynamicContext> context (qinit->createDynamicContext());
     Sequence seq = context->resolveDocument(X(filename.c_str()));
     if(!seq.isEmpty() && seq.first()->isNode()) {
@@ -33,15 +33,15 @@ RecipeReader::RecipeReader(std::string filename)
 
     InitXML=UTF8(rinit->next(context)->asString(context));
 
-    AutoDelete<XQQuery> qsrctree(xqilla.parse(X("data(.cooker/source)")));
+    AutoDelete<XQQuery> qsrctree(xqilla.parse(X("data(/cooker/source)")));
     Result rsrctree=qsrctree->execute(context);
     srctree=UTF8(rsrctree->next(context)->asString(context));
 
-    AutoDelete<XQQuery> qdsttree(xqilla.parse(X("data(.cooker/destination)")));
+    AutoDelete<XQQuery> qdsttree(xqilla.parse(X("data(/cooker/destination)")));
     Result rdsttree=qdsttree->execute(context);
     dsttree=UTF8(rdsttree->next(context)->asString(context));
 
-    AutoDelete<XQQuery> qplugs(xqilla.parse(X(".cooker/plugins/plugin")));
+    AutoDelete<XQQuery> qplugs(xqilla.parse(X("/cooker/plugins/plugin")));
     Result rplugs=qplugs->execute(context);
 
     AutoDelete<XQQuery> qplname(xqilla.parse(X("data(./name)")));
@@ -60,40 +60,40 @@ RecipeReader::RecipeReader(std::string filename)
 	plugins[UTF8(rname->next(context2)->asString(context2))]=UTF8(rfile->next(context2)->asString(context2));
        }
 
-    AutoDelete<XQQuery> qdefineHistograms(xqilla.parse(X(".cooker/defineHistograms/*")));
+    AutoDelete<XQQuery> qdefineHistograms(xqilla.parse(X("/cooker/defineHistograms/*")));
     Result rdefineHistograms=qdefineHistograms->execute(context);
     while(Node::Ptr item=rdefineHistograms->next(context))
       {
 	defineHistograms.push_back(class_method(UTF8(item->dmNodeName(context)->getName()), UTF8(item->dmStringValue(context))));
       }
 
-    AutoDelete<XQQuery> qstartup(xqilla.parse(X(".cooker/startup/*")));
+    AutoDelete<XQQuery> qstartup(xqilla.parse(X("/cooker/startup/*")));
     Result rstartup=qstartup->execute(context);
     while(Node::Ptr item=rstartup->next(context))
       {
 	startup.push_back(class_method(UTF8(item->dmNodeName(context)->getName()), UTF8(item->dmStringValue(context))));
       }
 
-    AutoDelete<XQQuery> qexecute(xqilla.parse(X(".cooker/execute/*")));
+    AutoDelete<XQQuery> qexecute(xqilla.parse(X("/cooker/execute/*")));
     Result rexecute=qexecute->execute(context);
     while(Node::Ptr item=rexecute->next(context))
       {
 	commands.push_back(class_method(UTF8(item->dmNodeName(context)->getName()), UTF8(item->dmStringValue(context))));
       }
-    AutoDelete<XQQuery> qfinalize(xqilla.parse(X(".cooker/finalize/*")));
+    AutoDelete<XQQuery> qfinalize(xqilla.parse(X("/cooker/finalize/*")));
     Result rfinalize=qfinalize->execute(context);
     while(Node::Ptr item=rfinalize->next(context))
       {
 	finalize.push_back(class_method(UTF8(item->dmNodeName(context)->getName()), UTF8(item->dmStringValue(context))));
       }
 
-    AutoDelete<XQQuery> qexecute2(xqilla.parse(X(".cooker/execute2/*")));
+    AutoDelete<XQQuery> qexecute2(xqilla.parse(X("/cooker/execute2/*")));
     Result rexecute2=qexecute2->execute(context);
     while(Node::Ptr item=rexecute2->next(context))
       {
 	commands2.push_back(class_method(UTF8(item->dmNodeName(context)->getName()), UTF8(item->dmStringValue(context))));
       }
-    AutoDelete<XQQuery> qpostprocess(xqilla.parse(X(".cooker/postprocess/*")));
+    AutoDelete<XQQuery> qpostprocess(xqilla.parse(X("/cooker/postprocess/*")));
     Result rpostprocess=qpostprocess->execute(context);
     while(Node::Ptr item=rpostprocess->next(context))
       {
