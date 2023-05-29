@@ -30,8 +30,10 @@ class RecipeReader
   std::vector<class_method> defineHistograms;
   std::vector<class_method> commands;
   std::vector<class_method> commands2;
+  std::vector<class_method> commands3;
   std::vector<class_method> startup;
   std::vector<class_method> postprocess;
+  std::vector<class_method> postprocess2;
   std::vector<class_method> finalize;
 
   RecipeReader(std::string filename); // Read XML-file named filename

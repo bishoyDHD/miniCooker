@@ -7,6 +7,10 @@
 #include <sys/time.h>
 #include <algorithm>
 #include "chef.h"
+#include <string_view>
+
+// work around to make cooker compile on ubuntu 20.04
+#define BOOST_ASIO_DISABLE_STD_EXPERIMENTAL_STRING_VIEW 1
 
 #include <boost/array.hpp>
 #include <boost/asio.hpp>
@@ -67,6 +71,8 @@ int main(int argc, char **argv)
     ("output_tree,O",po::value<std::string>(),"output root tree")
     ("verbose,v",po::value<int>()->implicit_value(1),"Verbose mode (optionally specify level)")
     ("every,e",po::value<int>()->default_value(500),"Print out status every x events")
+    ("compress,z",po::value<int>()->default_value(1),"Compression Algorithm, use 1 for ZLIB, 2 for LZMA, or 4 for LZ4")
+    ("level,l",po::value<int>()->default_value(1),"Compression level, 1-9, default 1")
     ("call,c",po::value<std::vector<std::string> >(),"Call a plugin's function. Needs argument with format: <plugin>:<function>:<arguments>") 
     ("monitor,m",po::value<std::string>(),"send monitor udp to this host (port 5555)")
     ("remote","Switches on remote mode -- internal use only")
@@ -159,19 +165,19 @@ int main(int argc, char **argv)
       remote=true;
       char *tmpfilename=tempnam(NULL,"cooker.temp");
       std::cout<<"##REMOTE## filename "<<tmpfilename<<" \n";
-      chef.prepareTrees(input,tmpfilename,vm.count("fake_input"));
+      chef.prepareTrees(input,tmpfilename,vm.count("fake_input"),vm["compress"].as<int>(),vm["level"].as<int>());
     }
   else
 #ifdef WITHMPI
     if (world && (world->rank()>0))
-      chef.prepareTrees(input,"",vm.count("fake_input"));
+      chef.prepareTrees(input,"",vm.count("fake_input"),vm["compress"].as<int>(),vm["level"].as<int>());
     else
 #endif 
       {
 	if (vm.count("output_tree"))  
-	  chef.prepareTrees(input,vm["output_tree"].as<std::string>(),vm.count("fake_input"));
+	  chef.prepareTrees(input,vm["output_tree"].as<std::string>(),vm.count("fake_input"),vm["compress"].as<int>(),vm["level"].as<int>());
 	else
-	  chef.prepareTrees(input,"",vm.count("fake_input"));
+	  chef.prepareTrees(input,"",vm.count("fake_input"),vm["compress"].as<int>(),vm["level"].as<int>());
       }
 
   bool sendudp=false;
@@ -241,14 +247,13 @@ int main(int argc, char **argv)
 
 #ifdef WITHMPI
   
-  if ((world) && (chef.secondpasssize()>0))
+  if ((world) && ((chef.secondpasssize()>0) || chef.thirdpasssize()>0))
     {
-      std::cerr<<"Can not have a second pass in MPI mode\n";
+      std::cerr<<"Can not have a second or third pass in MPI mode\n";
       exit(-1);
     }
 #endif
-	    chef.processInit(debug,pluginoptions);
-
+  chef.processInit(debug,pluginoptions);
 
   std::cerr<<"--Define Histograms--"<<std::endl;
   chef.defineHistograms();
@@ -271,9 +276,16 @@ int main(int argc, char **argv)
       start=num*(vm["part"].as<unsigned int>());
 
     }
-  count=std::max(std::min(count-start,num),0);
+    if(start<0)//count backwards
+    {
+    	start=std::max(count+start,0);
+    	std::cout << "Starting at event: " << start << " out of: " << count << " events!"<< std::endl;
+    }
 
-#define blocksize 500
+    
+  	count=std::max(std::min(count-start,num),0);
+
+#define blocksize 1000
 #ifdef WITHMPI
   TBufferFile *sbuf; //send and receive buffers;
   std::map<int,std::unique_ptr<TBufferFile> > doneblocks;
@@ -478,7 +490,7 @@ int main(int argc, char **argv)
 		  msg= boost::str(boost::format("Rank %i: Block: %i ETA: %i s,  Elapsed: %i s\n") %world->rank() % blocknum % eta % tdiff);
 		else
 #endif
-		  msg= boost::str(boost::format("%s: ETA: %i s,  Elapsed: %i s\n") % input % eta % tdiff);
+		  msg= boost::str(boost::format("%s: 1:ETA: %i s,  Elapsed: %i s\n") % input % eta % tdiff);
 		socket.send_to(boost::asio::buffer(msg.c_str(), msg.size()), dest_endpoint);
 	      }
 	
@@ -532,6 +544,12 @@ int main(int argc, char **argv)
 	    start=num*(vm["part"].as<unsigned int>());
 
 	  }
+	  if(start<0)
+	  {
+	  	start=std::max(count+start,0);
+    	std::cout << "Starting at event: " << start << " out of: " << count << " events!"<< std::endl;
+	  }
+
 
 	count=std::max(std::min(count-start,num),0);
 
@@ -561,7 +579,7 @@ int main(int argc, char **argv)
 	      if (sendudp && (tdiff>ltdiff))
 		{
 		  ltdiff=tdiff;
-		  std::string msg = boost::str(boost::format("%s: ETA: %i s,  Elapsed: %i s\n") % vm["input_tree"].as<std::string>() % eta % tdiff);
+		  std::string msg = boost::str(boost::format("%s: 2:ETA: %i s,  Elapsed: %i s\n") % vm["input_tree"].as<std::string>() % eta % tdiff);
 		  socket.send_to(boost::asio::buffer(msg.c_str(), msg.size()), dest_endpoint);
 		}
 
@@ -576,6 +594,67 @@ int main(int argc, char **argv)
 	std::cerr<<"\r"<<count<<"/"<<count<<" "<<100<<"%                       "<<std::flush;
       }
 
+      std::cerr<<std::endl<<"--Post Process 2--"<<std::endl;
+  
+      chef.postprocess2();
+  
+      if (chef.thirdpasssize()) {
+	std::cerr<<std::endl<<"--3rd Pass Looping--"<<std::endl;
+	gettimeofday(&costarttime,0);
+
+	int count=chef.in->GetEntries();
+	int num=count;
+	int start=vm["start"].as<unsigned int>();
+	if (vm.count("num"))
+	  num=vm["num"].as<unsigned int>();
+	if (vm.count("split"))
+	  {
+	    num=(int) (0.5+num*1.0/vm["split"].as<unsigned int>());
+	    start=num*(vm["part"].as<unsigned int>());
+	  }
+	  if(start<0)
+	  {
+	  	start=std::max(count+start,0);
+		std::cout << "Starting at event: " << start << " out of: " << count << " events!"<< std::endl;
+	  }
+
+	count=std::max(std::min(count-start,num),0);
+	unsigned int ltdiff=0;
+	for (int i=0;i<count;i++)
+	  { 
+	    int code=chef.processEvent3(i+start);
+	    if (debug>=100 && code!=0)
+	      std::cerr<<"Loop gave:"<<code<<std::endl;
+	    if ( (i % every) ==0  || sendudp) {
+	      unsigned int tdiff=getdifftime();
+	      unsigned int cps=(unsigned int) (i*1.0/tdiff*1000.0);
+	      unsigned int eta= (unsigned int) (tdiff*1.0*(count-i)/i/1000);
+	      tdiff/=1000;
+	      if( (i %every)==0)
+		{
+		  std::cerr<<"\r"<<i<<"/"<<count<<" @ "<<i+start<<" " <<i*100/count<<"%  "<<cps<<" Hz   ETA: ";
+		  if (eta / 3600 >0) std::cerr<<eta/3600<<"h ";
+		  if (eta / 60 >0) std::cerr<<eta % 3600 / 60<<"min ";
+		  std::cerr<<eta % 60<<"s  Elapsed: ";
+		  if (tdiff / 3600 >0) std::cerr<<tdiff/3600<<"h ";
+		  if (tdiff / 60 >0) std::cerr<<tdiff % 3600 / 60<<"min ";
+		  std::cerr<<tdiff % 60<<"s     "<<std::flush;
+		}
+	
+	      if (sendudp && (tdiff>ltdiff))
+		{
+		  ltdiff=tdiff;
+		  std::string msg = boost::str(boost::format("%s: 3:ETA: %i s,  Elapsed: %i s\n") % vm["input_tree"].as<std::string>() % eta % tdiff);
+		  socket.send_to(boost::asio::buffer(msg.c_str(), msg.size()), dest_endpoint);
+		}
+	      if (remote)
+		std::cout<<"\n##REMOTE## stat "<<i<<" "<<count<<" "<<cps<<" "<<eta<<std::endl;
+	    }
+	    if (code & Plugin::redo) i--;
+	  }
+	std::cerr<<"\r"<<count<<"/"<<count<<" "<<100<<"%                       "<<std::flush;
+      }
+      
       std::cerr<<std::endl<<"--Finalize--"<<std::endl;
 
       chef.finalize();

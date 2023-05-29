@@ -24,8 +24,15 @@ class InitReader
  public:
   InitReader(std::string filename,std::string date,int runnr); // Read XML-file named filename 
   ~InitReader();
-  std::map<std::string,std::vector<std::string> > getConfig(std::string name); // Return config strings for 
   
+  struct config_strings {
+    std::string method;
+    std::string parameter;
+  };
+  typedef std::vector<config_strings> config_string_vector;
+  
+  config_string_vector getConfig(std::string name); // Return config strings for 
+
 };
 
 

@@ -1,15 +1,25 @@
-CMAKE_MINIMUM_REQUIRED(VERSION 2.4.3 FATAL_ERROR)
+CMAKE_MINIMUM_REQUIRED(VERSION 3.0 FATAL_ERROR)
+project(COOKER)
 SET(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/modules")
+
+IF (XCODE)
+   SET(CMAKE_XCODE_GENERATE_SCHEME ON)
+ENDIF(XCODE)
 
 #INCLUDE(cmake/modules/comp_base.cmake)
 SET(CMAKE_VERBOSE_MAKEFILE OFF)
-SET(CMAKE_CXX_STANDARD 14)
+SET(CMAKE_CXX_STANDARD 17)
 SET(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # searches for needed packages
 FIND_PACKAGE(ROOT REQUIRED)
 FIND_PACKAGE(CLHEP REQUIRED)
 FIND_PACKAGE(GSL REQUIRED)
+FIND_PACKAGE(XQILLA REQUIRED)
+FIND_PACKAGE(XercesC REQUIRED)
+FIND_PACKAGE(LZMA REQUIRED)
+SET(XERCES_LIBRARY ${XercesC_LIBRARY_RELEASE})
+SET(XERCES_INCLUDE_DIR ${XercesC_INCLUDE_DIR})
 
 #FIND_PACKAGE(GENFIT) #Can uncomment for later use of GenFit or Tongtong's Kalman Filter
 
@@ -25,9 +35,9 @@ set (BUILD_WITHMPI off CACHE bool "Enable MPI for parallel processing (normally 
 
 if (BUILD_WITHMPI)
  find_package(MPI REQUIRED)
- FIND_PACKAGE(Boost 1.41 COMPONENTS system program_options program_options mpi serialization REQUIRED) 
+ FIND_PACKAGE(Boost 1.72 COMPONENTS system program_options program_options mpi serialization REQUIRED) 
 ELSE()
- FIND_PACKAGE(Boost 1.41 COMPONENTS system program_options program_options REQUIRED) 
+ FIND_PACKAGE(Boost 1.68 COMPONENTS system program_options program_options REQUIRED) 
 ENDIF()
 
 INCLUDE_DIRECTORIES(${Boost_INCLUDE_DIR})
@@ -82,11 +92,11 @@ IF(NOT DEFINED RERUN)
 ENDIF(NOT DEFINED RERUN)
 	
 # add a doc target to generate API information with doxygen
-find_package(Doxygen)
-if (DOXYGEN_FOUND)
-  configure_file(${CMAKE_CURRENT_SOURCE_DIR}/doc/doxygen.conf ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile @ONLY)
-add_custom_target(doc  ${DOXYGEN_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR} COMMENT "Generating API documentation" VERBATIM)
-ENDIF(DOXYGEN_FOUND)
+#find_package(Doxygen)
+#if (DOXYGEN_FOUND)
+	#configure_file(${CMAKE_CURRENT_SOURCE_DIR}/doc/doxygen.conf ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile @ONLY)
+  #add_custom_target(doc  ${DOXYGEN_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR} COMMENT "Generating API documentation" VERBATIM)
+#ENDIF(DOXYGEN_FOUND)
 
 if(OPENMP_FOUND)
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")

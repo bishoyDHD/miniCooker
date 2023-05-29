@@ -1,5 +1,5 @@
 # Check if cmake has the required version
-CMAKE_MINIMUM_REQUIRED(VERSION 2.4.3 FATAL_ERROR)
+CMAKE_MINIMUM_REQUIRED(VERSION 3.0 FATAL_ERROR)
 # Needed for cmake 2.6
 IF(COMMAND cmake_policy)
 	cmake_policy(SET CMP0003 NEW)
@@ -16,22 +16,6 @@ INCLUDE_DIRECTORIES(${INCLUDES})
 # Set output path for libraries and executables within build directory (makes linking easier...)
 SET(LIBRARY_OUTPUT_PATH "${CMAKE_BINARY_DIR}/lib")
 SET(EXECUTABLE_OUTPUT_PATH "${CMAKE_BINARY_DIR}/bin")
-
-IF(NOT DEFINED RERUN)
-	IF(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
-	  EXEC_PROGRAM(uname ARGS -m OUTPUT_VARIABLE ARCHDIR)
-	  FILE(MAKE_DIRECTORY "$ENV{HOME}/.cooker/${ARCHDIR}/")
-	  SET(CMAKE_INSTALL_PREFIX "$ENV{HOME}/.cooker/${ARCHDIR}/" CACHE STRING "Prefix fortree installation" FORCE)
-	  MESSAGE("Will install plugin to ${CMAKE_INSTALL_PREFIX}")
-	ENDIF(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
-ENDIF(NOT DEFINED RERUN)
-	
-SET(BINDIR "bin" CACHE STRING "binary directory within CMAKE_INSTALL_PREFIX")
-SET(LIBDIR "lib" CACHE STRING "library directory within CMAKE_INSTALL_PREFIX")
-SET(INCDIR "include" CACHE STRING "include directory within CMAKE_INSTALL_PREFIX")
-SET(DATADIR "" CACHE STRING "data directory within CMAKE_INSTALL_PREFIX")
-
-MESSAGE(STATUS "Your plugin will be installed in ${CMAKE_INSTALL_PREFIX}/${LIBDIR}")
 
 SET(LINKDEF ${CMAKE_CURRENT_SOURCE_DIR}/src/include/LinkDef.hh)
 SET(DICTIONARY ${CMAKE_CURRENT_BINARY_DIR}/SlowCtrlManagerDict.cpp)

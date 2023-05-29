@@ -10,11 +10,12 @@
 #include <xercesc/framework/MemBufInputSource.hpp>
 #include <sys/time.h>
 #include <cstdio>
+#include <set>
 
 
 char commanddate[]="declare variable $date as xs:dateTime external;\n\
  declare variable $detector as xs:string external;\n\
- for $i in     for $h in .cookerinit/*[name()=$detector]/date/*\
+ for $i in     for $h in /darklightinit/*[name()=$detector]/date/*\
  let $n:=name($h)\n\
  where $h/../@time<=$date\n\
    return \n\
@@ -22,17 +23,17 @@ char commanddate[]="declare variable $date as xs:dateTime external;\n\
 	       	      if ( $h/id ) then \n\
 	       	      	 for $k in $h/id\n\
 		      	     return element{node-name ($h)}\n\
-		      	       { $h/../@time, $h/@* ,$k/@id, attribute {\"fct\"}{data(.cookerinit/*[name()=$detector]/config/*[name()=$n]) },$k/node()}\n\
+		      	       { $h/../@time, $h/@* ,$k/@id, attribute {\"fct\"}{data(/darklightinit/*[name()=$detector]/config/*[name()=$n]) },$k/node()}\n\
 		      else\n\
 			    element{node-name ($h)}\n\
-		       	       { $h/../@time, $h/@* , attribute {\"fct\"}{data(.cookerinit/*[name()=$detector]/config/*[name()=$n]) },$h/node()}\n\
+		       	       { $h/../@time, $h/@* , attribute {\"fct\"}{data(/darklightinit/*[name()=$detector]/config/*[name()=$n]) },$h/node()}\n\
 		 	       (: Attach time to child :)\n\
     order by name($i),$i/@id, $i/@time descending\n\
     return $i";
 
 char commandrun[]="declare variable $runnum as xs:integer external;\n\
  declare variable $detector as xs:string external;\n\
- for $i in     for $h in .cookerinit/*[name()=$detector]/run/*\
+ for $i in     for $h in /darklightinit/*[name()=$detector]/run/*\
  let $n:=name($h)\n\
  where $h/../@nr<=$runnum\n\
    return \n\
@@ -40,12 +41,13 @@ char commandrun[]="declare variable $runnum as xs:integer external;\n\
 	       	      if ( $h/id ) then \n\
 	       	      	 for $k in $h/id\n\
 		      	     return element{node-name ($h)}\n\
-		      	       { $h/../@nr, $h/@* ,$k/@id, attribute {\"fct\"}{data(.cookerinit/*[name()=$detector]/config/*[name()=$n]) },$k/node()}\n\
+		      	       { $h/../@nr, $h/@* ,$k/@id, attribute {\"fct\"}{data(/darklightinit/*[name()=$detector]/config/*[name()=$n]) },$k/node()}\n\
 		      else\n\
 			    element{node-name ($h)}\n\
-		       	       { $h/../@nr, $h/@* , attribute {\"fct\"}{data(.cookerinit/*[name()=$detector]/config/*[name()=$n]) },$h/node()}\n\
+		       	       { $h/../@nr, $h/@* , attribute {\"fct\"}{data(/darklightinit/*[name()=$detector]/config/*[name()=$n]) },$h/node()}\n\
 		 	       (: Attach time to child :)\n\
-    order by name($i),$i/@id, $i/@nr descending\n\
+    (: order by name($i),$i/@id, number($i/@nr) descending :) \n\
+    order by number($i/@nr) descending \n\
     return $i";
 
 XERCES_CPP_NAMESPACE_USE;
@@ -55,10 +57,10 @@ class xmlbasefilter: public DOMLSParserFilter::DOMLSParserFilter
 public:
   virtual FilterAction startElement(DOMElement * node )
   {
-    if (std::string(UTF8(node->getAttribute(X("xml:base"))))=="homedir/.cooker/shared/")
+    if (std::string(UTF8(node->getAttribute(X("xml:base"))))=="homedir/.darklight/shared/")
       {
 	char buf[10000];
-	snprintf(buf,10000,"file://%s/.cooker/shared/",getenv("COOKERHOME"));
+	snprintf(buf,10000,"file://%s/.darklight/shared/",getenv("COOKERHOME"));
 	node->setAttribute(X("xml:base"),X(buf));
       }
   return FILTER_ACCEPT ;
@@ -71,12 +73,12 @@ public:
   virtual long unsigned int getWhatToShow() const {
     return DOMNodeFilter::SHOW_ALL;
   } ;
- 
+
 };
 
 
 
-// return  $nodes[$i][ name($nodes[($i)-1])!=name($nodes[$i]) or $nodes[($i)-1]/@id!=$nodes[$i]/@id ]";			
+// return  $nodes[$i][ name($nodes[($i)-1])!=name($nodes[$i]) or $nodes[($i)-1]/@id!=$nodes[$i]/@id ]";
 class ErrorHandler:DOMErrorHandler
 {
 
@@ -110,25 +112,25 @@ public:
 	    std::string xincfn=std::string(UTF8(par->getAttribute(X("xml:base"))))+UTF8(l->getRelatedNode()->getAttributes()->getNamedItem(X("href"))->getNodeValue());
 	    std::cerr<<"This is an xinclude error. Reparsing included file: "<<xincfn<<std::endl;
 	        DOMImplementation *xqillaImplementation =DOMImplementationRegistry::getDOMImplementation(X("XPath2 3.0"));
-    
+
 		AutoRelease<DOMLSParser> parser(xqillaImplementation->createLSParser(DOMImplementationLS::MODE_SYNCHRONOUS, 0));
 		parser->getDomConfig()->setParameter(XMLUni::fgDOMNamespaces, true);
 		parser->getDomConfig()->setParameter(XMLUni::fgXercesSchema, true);
 		parser->getDomConfig()->setParameter(XMLUni::fgDOMValidateIfSchema, true);
 		parser->getDomConfig()->setParameter(XMLUni::fgXercesHandleMultipleImports, true);
 		parser->getDomConfig()->setParameter(XMLUni::fgXercesSchemaFullChecking, true);
-		
+
 		if( parser->getDomConfig()->canSetParameter(XMLUni::fgXercesDoXInclude, true)){
 		  parser->getDomConfig()->setParameter(XMLUni::fgXercesDoXInclude, true);
 		}
-		
-		
+
+
 		parser->getDomConfig()->setParameter(X("error-handler"),this);
-		
+
 		// Parse a DOMDocument
 		DOMDocument *document = parser->parseURI(xincfn.c_str());
 	  }
-	
+
 	std::cerr<<"Init File Parsing error occured... bailing out."<<std::endl;
 	exit(-101);}
     return true;
@@ -137,11 +139,11 @@ public:
 
 InitReader::InitReader(std::string filename,std::string date, int runnr)
 {
-  try{ 
+  try{
 
     XQillaPlatformUtils::initialize();
     DOMImplementation *xqillaImplementation =DOMImplementationRegistry::getDOMImplementation(X("XPath2 3.0"));
-    
+
     AutoRelease<DOMLSParser> parser(xqillaImplementation->createLSParser(DOMImplementationLS::MODE_SYNCHRONOUS, 0));
     parser->getDomConfig()->setParameter(XMLUni::fgDOMNamespaces, true);
     parser->getDomConfig()->setParameter(XMLUni::fgXercesSchema, true);
@@ -165,35 +167,35 @@ InitReader::InitReader(std::string filename,std::string date, int runnr)
       std::cerr << "InitReader: Document not found: " <<  filename<< std::endl;
       exit(-100);
     }
-    
+
     AutoRelease<DOMLSSerializer> Serializer(xqillaImplementation->createLSSerializer());
-  
+
     XMLCh *docu=Serializer->writeToString(document);
     context =xqilla.createContext(XQilla::XQUERY);
     querydate= xqilla.parse(X(commanddate),context);
     context =xqilla.createContext(XQilla::XQUERY);
     querynr= xqilla.parse(X(commandrun),context);
 
-    //   query= xqilla.parse(X("for $i in .cookerinit/ToF/*\nreturn $i"),context);
+    //   query= xqilla.parse(X("for $i in /darklightinit/ToF/*\nreturn $i"),context);
 
-    
+
     Item::Ptr item;
     item = context->getItemFactory()->createDateTime(X(date.c_str()), context);
     Sequence  sdate(1);
     sdate.addItem(item);
     context->setExternalVariable(X("date"), sdate);
 
-    item= context->getItemFactory()->createInteger(runnr,context); 
+    item= context->getItemFactory()->createInteger(runnr,context);
     Sequence srunnr(1);
     srunnr.addItem(item);
     context->setExternalVariable(X("runnum"),srunnr);
-    
+
 
     // Parse a document, and set it as the context item
     std::string buf=UTF8(docu);
 
     xercesc::MemBufInputSource mbis((const XMLByte*) buf.c_str(), buf.length(), "BUFFER");
-  
+
     context->setContextItem(context->parseDocument(mbis));
     context->setContextPosition(1);
     context->setContextSize(1);
@@ -201,7 +203,7 @@ InitReader::InitReader(std::string filename,std::string date, int runnr)
   catch(   XQException E)
     {
       std::cerr<<"Parsing of init XML failed, error type:"<<UTF8(E.getType())<<" Error:"<<UTF8(E.getError())<<std::endl;
-    } 
+    }
 }
 
 
@@ -213,11 +215,12 @@ InitReader::~InitReader()
 
 
 
-std::map<std::string,std::vector<std::string> > InitReader::getConfig(std::string name)
+InitReader::config_string_vector InitReader::getConfig(std::string name)
 {
   std::string lastid="";
   std::string lastfct="";
-  std::map<std::string,std::vector<std::string> > erg;
+  config_string_vector erg;
+  std::set<std::string> setOfErg;
  // Execute the query, using the context
   try{
     Item::Ptr det;
@@ -232,38 +235,57 @@ std::map<std::string,std::vector<std::string> > InitReader::getConfig(std::strin
 	if (i==0)
 	  result = querydate->execute(context);
 	else
-	  result = querynr->execute(context);	
-	while(item = result->next(context)) {
+	  result = querynr->execute(context);
+          while((item = result->next(context))) {
+//      std::cout << UTF8(item->asString(context)) << std::endl;
 	  Result attribs=item->dmAttributes(context,0);
 	  Node::Ptr attrib;
 	  std::string id="";
 	  std::string fct="";
-	  while(attrib=attribs->next(context))
+              while((attrib=attribs->next(context)))
 	    {
 	      std::string name=UTF8(attrib->dmNodeName(context)->getName());
 	      std::string value=UTF8(attrib->dmStringValue(context));
-	      
-	      if (name=="id") id=value;
+
+	      if (name=="id"){
+          id=value;
+
+          //check if id has a space in it:
+          bool is_space = any_of(value.begin(), value.end(), isspace);
+
+          // if the space is found exit with an error:
+          if(is_space){
+            printf("!!!!----------------- Error in Init.xml, No Spaces should be used in the detector ID!--------------!!!!\n");
+            printf("%s => [%s] \n", name.c_str(), value.c_str());
+            exit(-1);
+          }
+
+        }
 	      if (name=="fct"){
 		//sanitize the fct name
 		fct=value;
 		boost::trim(fct);
-		
+
 	      }
 	    }
-	  std::string value=UTF8(item->dmStringValue(context));
-	  if ((fct!=lastfct )||(id!=lastid))
-	    {	
-	      if (id=="")
-		erg[fct].push_back(value);
-	      else
-		erg[fct].push_back(id+","+value);
-	      lastid=id;
-	      lastfct=fct;
-	    }
+	    std::string value=UTF8(item->dmStringValue(context));
+        if (setOfErg.find(fct+id) == setOfErg.end()) {
+            erg.push_back({fct, id=="" ? value : id+","+value});
+            setOfErg.insert(fct+id);
+        }
+        
+//	  if ((fct!=lastfct )||(id!=lastid))
+//	    {
+//	      if (id=="")
+//		erg[fct].push_back(value);
+//	      else
+//		erg[fct].push_back(id+","+value);
+//	      lastid=id;
+//	      lastfct=fct;
+//	    }
 	}
       }
-    
+
   }
   catch(   XQException E)
     {

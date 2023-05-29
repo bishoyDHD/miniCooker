@@ -1,4 +1,5 @@
 #include "chef.h"
+#include "InitReader.h"
 #include "TTimeStamp.h"
 #include "TFile.h"
 
@@ -34,7 +35,7 @@ Long_t callinfo::execute()
   mc.Execute(plug,rval);
   if (!mc.IsValid()) {kval = -9001;}
   if ((rval<0) || (kval<0))
-    {
+   {
       std::cout<<"\n********************************************************************************\n";
       std::cerr<<"\nError while calling: "<<plug->IsA()->GetName()<<"::"<<mc.GetMethodName()<<"\n";
       std::cerr<<"The function returned value: "<<rval<<"\n\n";
@@ -61,7 +62,7 @@ std::vector<callinfo*> Chef::compilelist(std::vector<class_method> &list)
 Chef::Chef(std::string recipename,unsigned int seed,unsigned int gskip, unsigned int gseed):recipe(recipename)
 {
   // set dynamic path
-  gSystem->AddDynamicPath("~/.cooker/" ARCHDIR "/lib");
+  gSystem->AddDynamicPath("~/.darklight/" ARCHDIR "/lib");
   
   //set COOKERHOME
   setenv("COOKERHOME",getenv("HOME"),0);
@@ -77,13 +78,24 @@ Chef::Chef(std::string recipename,unsigned int seed,unsigned int gskip, unsigned
   if (seed==0)
     {
       FILE *f=fopen("/dev/urandom","r");
-      fread(&seed,sizeof(unsigned int),1,f);
+      if (1!=fread(&seed,sizeof(unsigned int),1,f))
+      {
+        std::cerr<<"Could not read from /dev/random -- bailing out"<<std::endl;
+        exit(-100);
+      }
       fclose(f);
     }
   if (gseed==0)
     {
       FILE *f=fopen("/dev/urandom","r");
-      fread(&gseed,sizeof(unsigned int),1,f);
+      if (1!=fread(&gseed,sizeof(unsigned int),1,f))
+      {
+              {
+        std::cerr<<"Could not read from /dev/urandom -- bailing out"<<std::endl;
+        exit(-100);
+      }
+      }
+
       fclose(f);
     }
   gsl_rng_set(random,seed); 
@@ -100,7 +112,7 @@ Chef::Chef(std::string recipename,unsigned int seed,unsigned int gskip, unsigned
   addRepo("Callbacks",(TObject *)this);
 }
 
-void Chef::prepareTrees(std::string input, std::string output,bool empty)
+void Chef::prepareTrees(std::string input, std::string output,bool empty, int compression, int level)
 {
 
   // split up input string and recipe str by ":"
@@ -118,11 +130,12 @@ void Chef::prepareTrees(std::string input, std::string output,bool empty)
       boost::split(inputtreetypes,recipe.srctree,boost::is_any_of(":"));
       boost::split(inputfilenames,input,boost::is_any_of(":"));
       
+      
       /* <-- Temporary disabled in case MIDAS libs not needed -Bishoy
-      if (boost::algorithm::ends_with(inputfilenames[0],".mid"))
-	//infile=new MIDASfile(inputfilenames[0].c_str()); 
+      if (boost::algorithm::ends_with(inputfilenames[0],".mid") || boost::algorithm::ends_with(inputfilenames[0],".mid.xz"))
+      	infile=new MIDASfile(inputfilenames[0].c_str()); 
       else
-	inifile=TFile::Open(inputfilenames[0].c_str(),"READ");*/
+	infile=TFile::Open(inputfilenames[0].c_str(),"READ");*/
       in=(TTree*)infile->Get(inputtreetypes[0].c_str());
       if (!in)
 	{
@@ -155,6 +168,8 @@ void Chef::prepareTrees(std::string input, std::string output,bool empty)
 	std::cout<<"................fail"<<std::endl;
 	exit(-5);
       }
+      outfile->SetCompressionAlgorithm(compression);
+      outfile->SetCompressionLevel(level);
       out=new TTree(recipe.dsttree.c_str(),recipe.dsttree.c_str());
 
       // try to copy runinfo and eventinfo
@@ -190,7 +205,7 @@ void Chef::loadPlugins(int rank)
       std::cout<<"Loading: "<<iter->second<<" as "<<iter->first;
       // DESPITE THE DOCUMENTATION WHICH SAYS IT CAN
 
-      //  void *handle=dlopen(gSystem->ExpandPathName((std::string("~/.cooker/"ARCHDIR"/lib/")+iter->second+std::string(LIBSUFFIX)).c_str()),RTLD_LAZY);
+      //  void *handle=dlopen(gSystem->ExpandPathName((std::string("~/.darklight/"ARCHDIR"/lib/")+iter->second+std::string(LIBSUFFIX)).c_str()),RTLD_LAZY);
 
       void *handle=dlopen((iter->second+std::string(LIBSUFFIX)).c_str(),RTLD_LAZY);
       if (handle) std::cout<<"................success"<<std::endl;
@@ -225,8 +240,12 @@ void Chef::loadPlugins(int rank)
   clexecute=compilelist(recipe.commands);
   std::cout<<std::endl<<"Post Process:"<<std::endl;
   clpostprocess=compilelist(recipe.postprocess);
-  std::cout<<std::endl<<"Execute2:"<<std::endl;
+  std::cout<<std::endl<<"Execute 2:"<<std::endl;
   clexecute2=compilelist(recipe.commands2);
+  std::cout<<std::endl<<"Post Process 2:"<<std::endl;
+  clpostprocess2=compilelist(recipe.postprocess2);
+  std::cout<<std::endl<<"Execute 3:"<<std::endl;
+  clexecute3=compilelist(recipe.commands3);
   std::cout<<std::endl<<"Finalize:"<<std::endl;
   clfinalize=compilelist(recipe.finalize); 
 }
@@ -251,7 +270,7 @@ void Chef::processInit(int debug,std::map<std::string,std::vector<std::pair<std:
   else
     {
       ttsstarttime=ri->startTime;
-      addRepo("Runnumber",(TObject *) ri->runNumber);
+      addRepo("Runnumber",(TObject *) &ri->runNumber);
     }  
   
 
@@ -274,23 +293,20 @@ void Chef::processInit(int debug,std::map<std::string,std::vector<std::pair<std:
 	piter->second->setDebug(debug);
 
       //set init options:
-      std::map<std::string,std::vector<std::string> > calls=init.getConfig(piter->first);
-      std::cout<<"#"<<std::flush;
+      InitReader::config_string_vector calls=init.getConfig(piter->first);
+      std::cout<<" ..."<<std::endl;
 
-      for ( std::map<std::string,std::vector<std::string> >::iterator iter=calls.begin();iter!=calls.end();iter++)
-	{
-	  TMethodCall mc(piter->second->IsA(),iter->first.c_str(),iter->second[0].c_str());
-	  for ( std::vector<std::string>::iterator iter2=iter->second.begin() ; iter2!=iter->second.end();iter2++) 	 
-	    {
-	      Long_t rval;
-	      mc.Execute(piter->second,iter2->c_str(),rval);
-	      if (rval<0)
-		{
-		  std::cerr<<std::endl<<"Error with Nr. "<<rval<<" calling "<<piter->first<<"::"<<iter->first<<" with:"<<(*iter2)<<std::endl;
-		  exit(rval-1000);
-		}
-	    }
-	}
+        for (auto iter = calls.begin(); iter != calls.end(); iter++) {
+            TMethodCall mc(piter->second->IsA(), iter->method.c_str(), iter->parameter.c_str());
+            Long_t rval;
+            mc.Execute(piter->second, iter->parameter.c_str(), rval);
+            std::cout << "\r   " << iter->method << " " << iter->parameter << std::flush;
+            if (rval < 0) {
+                std::cerr << std::endl
+                          << "Error with Nr. " << rval << " calling " << piter->first << "::" << iter->method << " with:" << iter->parameter << std::endl;
+                exit(rval - 1000);
+            }
+        }
       // set debug level from command line (overrides init settings)
       if (debug)
 	piter->second->setDebug(debug);
@@ -407,10 +423,48 @@ int Chef::processEvent2(int i)
     }
 
   //  if (!mskip && outfile) out->Fill();
-  if (outfile) out->Fill();
+  int pass3 = clexecute3.size();
+  if (!pass3 && outfile) out->Fill();
   lastresult=returncode;
   return returncode;
 }
+
+
+int Chef::processEvent3(int i)
+{
+  int rval=0;
+  if (i>=0)
+    in->GetEntry(i);
+  bool mskip=true;
+  int returncode=0;
+  weight=1; // set default weight.
+
+  for (std::vector<callinfo*>::iterator iter=clexecute3.begin();iter!=clexecute3.end();iter++)
+    {
+      gDirectory->cd("/");
+      if ((rval=(*iter)->execute())<0)
+	exit(rval-1000);
+      if (rval & Plugin::skip)
+	{
+	  lastresult=Plugin::skip;
+	  return Plugin::skip; // We skip, no fill
+	}
+      if (rval & Plugin::stop)
+	returncode|= Plugin::stop; // We stop, no fill, and loop should stop.
+      if (!(rval & Plugin::maySkip)) // we skip if ALL plugins give maySkip
+	mskip=false;      
+      if (rval & Plugin::redo)
+	returncode|=Plugin::redo;
+    }
+
+  //  if (!mskip && outfile) out->Fill();
+  if (outfile) out->Fill();
+  lastresult=returncode;
+  return returncode;
+
+
+}
+
 
 void Chef::postprocess()
 {
@@ -424,10 +478,29 @@ void Chef::postprocess()
     }
 }
 
+void Chef::postprocess2()
+{
+  //std::cout << "postprocess size: " << clpostprocess.size() << std::endl;
+  int rval=0;
+  for (std::vector<callinfo*>::iterator iter=clpostprocess2.begin();iter!=clpostprocess2.end();iter++)
+    {
+      gDirectory->cd("/");
+      if ((rval=(*iter)->execute()<0))
+	exit(rval-1000);
+    }
+}
+
+
 int Chef::secondpasssize()
 {
   //std::cout << "execute2 size: " << clexecute2.size() << std::endl;
   return clexecute2.size();
+}
+
+int Chef::thirdpasssize()
+{
+  //std::cout << "execute2 size: " << clexecute2.size() << std::endl;
+  return clexecute3.size();
 }
 
 void Chef::finalize()

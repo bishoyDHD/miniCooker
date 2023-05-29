@@ -58,3 +58,20 @@ void slowctrl::manager::updateWatches(slowctrl::datum *d)
     iter->state=newstate;
    }
 }
+
+bool slowctrl::manager::datumExists(std::string name)
+{
+    // Search the namemap
+    bool exists = (namemap.find(name)!=namemap.end());
+    
+    // Print a warning if it doesn't
+    if (!exists)
+    {
+        
+        printf("\n\n*****************************************************************************\n\n");
+        printf("  WARNING: Attempt to access slow control channel %s,\n doesn't exist!",name.c_str());
+        printf("\n\n*****************************************************************************\n\n");
+    }
+    
+    return exists;
+};

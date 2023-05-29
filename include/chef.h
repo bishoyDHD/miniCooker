@@ -33,7 +33,7 @@ class Chef:public FrameworkCallbacks
  private:
   std::map<std::string,Plugin *> plugins;
   std::map<std::string, TObject *>repo;
-  std::vector<callinfo*> cldefineHistograms,clstartup,clexecute,clpostprocess,clexecute2,clfinalize;
+  std::vector<callinfo*> cldefineHistograms,clstartup,clexecute,clpostprocess,clpostprocess2,clexecute2,clexecute3,clfinalize;
   std::vector<callinfo*> compilelist(std::vector<class_method> &list);
   std::map<TString,TH1*> histograms;
   
@@ -50,13 +50,16 @@ class Chef:public FrameworkCallbacks
   void loadPlugins(int rank=-1);
   void processInit(int debug,std::map<std::string,std::vector<std::pair<std::string,std::string> > > pluginoptions);
 
-  void prepareTrees(std::string input, std::string output,bool empty=false);
+  void prepareTrees(std::string input, std::string output,bool empty=false, int compression=1, int level=1);
   void startup();
   void defineHistograms();
   int processEvent(int i);
   int processEvent2(int i);
+  int processEvent3(int i);
   void postprocess();
+  void postprocess2();
   int secondpasssize();
+  int thirdpasssize();
   void finalize();
   void addRepo(std::string name,TObject *obj);
   void serializeBranches(TBufferFile &buf);

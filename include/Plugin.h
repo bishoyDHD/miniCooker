@@ -3,6 +3,7 @@
 #include "TObject.h"
 #include "TTree.h"
 #include "TFile.h"
+#include "TObjString.h"
 
 
 class rng;
@@ -13,6 +14,7 @@ class TGCompositeFrame;
 class TH1D;
 class TH2D;
 class TH3D;
+class TObjString;
 
 class DetectorFlags:public TObject
 {

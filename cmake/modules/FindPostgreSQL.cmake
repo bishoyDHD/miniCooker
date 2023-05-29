@@ -89,7 +89,7 @@ if(PostgreSQL_ROOT_DIRECTORIES)
 endif(PostgreSQL_ROOT_DIRECTORIES)
 
 set(PostgreSQL_KNOWN_VERSIONS ${PostgreSQL_ADDITIONAL_VERSIONS}
-    "9.1" "9.0" "8.4" "8.3" "8.2" "8.1" "8.0")
+    "10" "9.1" "9.0" "8.4" "8.3" "8.2" "8.1" "8.0")
 
 # Define additional search paths for root directories.
 if ( WIN32 )
